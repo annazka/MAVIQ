@@ -1,0 +1,102 @@
+[
+  {
+    "archive": "ui-ux-pro-max-skill-main.zip",
+    "source": ".claude/skills/banner-design",
+    "installed": "agents/skills/banner-design"
+  },
+  {
+    "archive": "ui-ux-pro-max-skill-main.zip",
+    "source": ".claude/skills/brand",
+    "installed": "agents/skills/brand"
+  },
+  {
+    "archive": "ui-ux-pro-max-skill-main.zip",
+    "source": ".claude/skills/design",
+    "installed": "agents/skills/design"
+  },
+  {
+    "archive": "ui-ux-pro-max-skill-main.zip",
+    "source": ".claude/skills/design-system",
+    "installed": "agents/skills/design-system"
+  },
+  {
+    "archive": "ui-ux-pro-max-skill-main.zip",
+    "source": ".claude/skills/slides",
+    "installed": "agents/skills/slides"
+  },
+  {
+    "archive": "ui-ux-pro-max-skill-main.zip",
+    "source": ".claude/skills/ui-styling",
+    "installed": "agents/skills/ui-styling"
+  },
+  {
+    "archive": "ui-ux-pro-max-skill-main.zip",
+    "source": ".claude/skills/ui-ux-pro-max",
+    "installed": "agents/skills/ui-ux-pro-max"
+  },
+  {
+    "archive": "taste-skill-main.zip",
+    "source": "skills/taste-skill",
+    "installed": "agents/skills/design-taste-frontend"
+  },
+  {
+    "archive": "anti-slop-main.zip",
+    "source": "skills/antislop",
+    "installed": "agents/skills/antislop"
+  },
+  {
+    "archive": "anti-slop-main.zip",
+    "source": "skills/antislop-code",
+    "installed": "agents/skills/antislop-code"
+  },
+  {
+    "archive": "anti-slop-main.zip",
+    "source": "skills/antislop-copywriting",
+    "installed": "agents/skills/antislop-copywriting"
+  },
+  {
+    "archive": "anti-slop-main.zip",
+    "source": "skills/antislop-human",
+    "installed": "agents/skills/antislop-human"
+  },
+  {
+    "archive": "anti-slop-main.zip",
+    "source": "skills/antislop-layoutmobile",
+    "installed": "agents/skills/antislop-layoutmobile"
+  },
+  {
+    "archive": "anti-slop-main.zip",
+    "source": "skills/antislop-ui",
+    "installed": "agents/skills/antislop-ui"
+  },
+  {
+    "archive": "ponytail-main.zip",
+    "source": "skills/ponytail",
+    "installed": "agents/skills/ponytail"
+  },
+  {
+    "archive": "ponytail-main.zip",
+    "source": "skills/ponytail-audit",
+    "installed": "agents/skills/ponytail-audit"
+  },
+  {
+    "archive": "ponytail-main.zip",
+    "source": "skills/ponytail-debt",
+    "installed": "agents/skills/ponytail-debt"
+  },
+  {
+    "archive": "ponytail-main.zip",
+    "source": "skills/ponytail-gain",
+    "installed": "agents/skills/ponytail-gain"
+  },
+  {
+    "archive": "ponytail-main.zip",
+    "source": "skills/ponytail-help",
+    "installed": "agents/skills/ponytail-help"
+  },
+  {
+    "archive": "ponytail-main.zip",
+    "source": "skills/ponytail-review",
+    "installed": "agents/skills/ponytail-review"
+  }
+]
