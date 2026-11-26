@@ -6,6 +6,7 @@ import '@fontsource-variable/plus-jakarta-sans';
 import { applyCommand, emptyLedger } from '../lib/ledger.js';
 import { demoLedger } from '../lib/demo.js';
 import Dashboard from './Dashboard.jsx';
+import Chatbot from './Chatbot.jsx';
 import Pages from './Pages.jsx';
 import MarketPrices from './MarketPrices.jsx';
 import Modal, { Field } from './forms.jsx';
@@ -248,6 +249,8 @@ function App() {
       </main>
     </div>
     {modal && <Modal key={modal.key} modal={modal} ledger={ledger} close={() => setModal(null)} open={open} commit={commit} notify={notify} receiptTools={receiptTools} />}
+    <Chatbot key={session?.user?.id || 'demo'} ledger={ledger} demo={!session} go={go}
+      ask={(question, previous) => workspace(session, { action: 'chat', question, previous })} />
     {status}
   </div>;
 }
