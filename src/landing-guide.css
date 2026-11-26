@@ -1,0 +1,122 @@
+.land-guide {
+  --guide-edge: max(18px, env(safe-area-inset-right));
+  --guide-floor: max(12px, env(safe-area-inset-bottom));
+  --guide-width: 128px;
+  --guide-height: 104px;
+}
+
+.land-guide-launcher {
+  position: fixed;
+  z-index: 10;
+  right: var(--guide-edge);
+  bottom: var(--guide-floor);
+  width: var(--guide-width);
+  height: var(--guide-height);
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  border: 0;
+  border-radius: 24px;
+  background: transparent;
+  padding: 0;
+  color: #15362e;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+.land-guide-launcher.dragging { cursor: grabbing; }
+.land-guide-launcher img {
+  width: calc(var(--guide-width) - 5px);
+  height: calc(var(--guide-height) - 4px);
+  object-fit: contain;
+  filter: drop-shadow(0 5px 7px #1e423743);
+  pointer-events: none;
+}
+.land-guide-hint, .land-guide-panel {
+  position: fixed;
+  z-index: 11;
+  max-height: calc(100dvh - 20px);
+  border: 1px solid #d3e6dc;
+  background: #fcfffd;
+  color: #15362e;
+  box-shadow: 0 8px 32px #143e302a;
+}
+.land-guide-hint {
+  width: min(228px, calc(100vw - 20px));
+  border-radius: 12px 12px 4px 12px;
+  padding: 10px 12px;
+  pointer-events: none;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.5;
+}
+.land-guide-panel {
+  width: min(312px, calc(100vw - 36px));
+  overflow: auto;
+  border-radius: 14px;
+  padding: 12px;
+}
+.land-guide-options {
+  width: min(212px, calc(100vw - 36px));
+  padding: 6px;
+  background: #14372f;
+  border-color: #4b7666;
+  color: #fff;
+}
+.land-guide-options button {
+  display: grid;
+  align-content: center;
+  gap: 3px;
+  width: 100%;
+  min-height: 49px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 8px;
+  text-align: left;
+  color: inherit;
+  background: transparent;
+}
+.land-guide-options button:hover, .land-guide-options button:focus-visible {
+  background: #235043;
+}
+.land-guide-options button:focus-visible {
+  outline-color: #ade6c9;
+  outline-offset: -2px;
+}
+.land-guide-options strong { font-size: 12px; font-weight: 760; }
+.land-guide-options button span { color: #c0d8cd; font-size: 10px; line-height: 1.4; }
+.land-tour-status p { margin-top: 3px; color: #51665d; font-size: 11px; line-height: 1.5; }
+.land-guide-stop {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  margin-top: 4px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #15362e;
+  width: 100%;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 750;
+}
+.land-guide-stop:hover { background: #e8f4ed; }
+.land-tour-status strong { font-size: 12px; }
+.land-footer { padding-right: 108px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .land-guide-launcher img { animation: land-guide-float 3.4s ease-in-out infinite; }
+  .land-guide-launcher:is(:hover, :focus-visible) img { animation: land-guide-wave .6s ease-out both; }
+  .land-guide-launcher.dragging img { animation: none; transform: rotate(-8deg) scale(1.04); }
+  .land-guide-hint, .land-guide-panel { animation: land-guide-appear .18s ease-out both; }
+  @keyframes land-guide-float { 50% { transform: translateY(-7px) rotate(3deg); } }
+  @keyframes land-guide-wave { 35% { transform: translateY(-7px) rotate(-10deg); } 70% { transform: translateY(-3px) rotate(6deg); } }
+  @keyframes land-guide-appear { from { opacity: 0; } }
+}
+@media (max-width: 550px) {
+  .land-guide { --guide-edge: max(10px, env(safe-area-inset-right)); --guide-width: 100px; --guide-height: 81px; }
+  .land-guide-tour { width: min(312px, calc(100vw - 20px)); }
+  .land-footer { padding-right: 61px; }
+}
