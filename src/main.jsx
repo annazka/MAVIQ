@@ -11,6 +11,7 @@ import Pages from './Pages.jsx';
 import MarketPrices from './MarketPrices.jsx';
 import Modal, { Field } from './forms.jsx';
 import { Button } from './ui.jsx';
+import ThemeSwitcher, { useTheme } from './ThemeSwitcher.jsx';
 import './style.css';
 
 const key = 'maviq-demo-ledger-v1';
@@ -51,7 +52,7 @@ function Brand() {
   return <span className="brand"><img src="/maviq.svg" width="37" height="37" alt="" /><span>MAVIQ<span className="brand-period">.</span></span></span>;
 }
 
-function Entry({ mode, goDemo, cancel, notify, setup }) {
+function Entry({ mode, goDemo, cancel, notify, setup, theme }) {
   const [register, setRegister] = useState(false);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -72,7 +73,7 @@ function Entry({ mode, goDemo, cancel, notify, setup }) {
     finally { setBusy(false); }
   };
   return <main className="entry-page"><section className="panel entry-card">
-    <Brand /><h1>{mode === 'setup' ? 'Buat usaha Anda' : register ? 'Daftar akun MAVIQ' : 'Masuk ke MAVIQ'}</h1>
+    <Brand /><ThemeSwitcher {...theme} /><h1>{mode === 'setup' ? 'Buat usaha Anda' : register ? 'Daftar akun MAVIQ' : 'Masuk ke MAVIQ'}</h1>
     <p>{mode === 'setup' ? 'Mulai dengan nama usaha dan saldo kas operasional.' : 'Buka ruang kerja usaha Anda.'}</p>
     {!supabase ? <p className="form-warning"><CircleAlert size={17} />Akun usaha tersedia setelah Supabase dikonfigurasi. Anda bisa mencoba data simulasi.</p> :
       <form className="entry-form" onSubmit={submit}>
@@ -89,6 +90,7 @@ function Entry({ mode, goDemo, cancel, notify, setup }) {
 }
 
 function App() {
+  const theme = useTheme();
   const [page, setPage] = useState(currentPage);
   const [demo, setDemo] = useState(readDemo);
   const [session, setSession] = useState(null);
@@ -206,10 +208,10 @@ function App() {
   const status = toast && <div className={'toast ' + (toast.error ? 'error' : '')} role={toast.error ? 'alert' : 'status'}>
     {toast.error ? <CircleAlert size={18} /> : <CircleCheck size={18} />}<span>{toast.message}</span><button aria-label="Tutup pemberitahuan" onClick={() => setToast(null)}><X size={16} /></button>
   </div>;
-  if (entry && !session) return <><Entry mode="login" goDemo={() => setEntry(false)} notify={notify} />{status}</>;
+  if (entry && !session) return <><Entry theme={theme} mode="login" goDemo={() => setEntry(false)} notify={notify} />{status}</>;
   if (session && !ledger) {
-    if (real === null) return <Entry mode="setup" setup={async fields => setReal(await workspace(session, { action: 'setup', ...fields }))} cancel={signOut} />;
-    return <main className="entry-page"><section className="panel entry-card"><Brand /><h1>{loadError ? 'Data belum terbuka' : 'Memuat usaha'}</h1><p role="status">{loadError || 'Mengambil data usaha Anda…'}</p>{loadError && <div className="entry-actions"><Button onClick={() => refresh(session)}>Coba lagi</Button><Button onClick={signOut}>Kembali ke demo</Button></div>}</section></main>;
+    if (real === null) return <Entry theme={theme} mode="setup" setup={async fields => setReal(await workspace(session, { action: 'setup', ...fields }))} cancel={signOut} />;
+    return <main className="entry-page"><section className="panel entry-card"><Brand /><ThemeSwitcher {...theme} /><h1>{loadError ? 'Data belum terbuka' : 'Memuat usaha'}</h1><p role="status">{loadError || 'Mengambil data usaha Anda…'}</p>{loadError && <div className="entry-actions"><Button onClick={() => refresh(session)}>Coba lagi</Button><Button onClick={signOut}>Kembali ke demo</Button></div>}</section></main>;
   }
   const low = ledger.ingredients.filter(item => Number(item.quantity) <= Number(item.minimum));
   const initials = ledger.name.trim().split(/\s+/).slice(0, 2).map(word => word[0]).join('').toUpperCase();
@@ -227,7 +229,7 @@ function App() {
       <nav aria-label="Navigasi utama">{links.map(([id, label, Icon]) => <a href={'#' + id} key={id} onClick={() => go(id)} aria-current={id === page ? 'page' : undefined}>
         <Icon size={19} /><span>{label}</span>{page === id && <i />}
       </a>)}</nav>
-      <div className="sidebar-bottom">{!session && <div className="demo-banner"><span className="demo-indicator" /><div><strong>Mode demo</strong><small>Data simulasi</small></div></div>}
+      <div className="sidebar-bottom"><ThemeSwitcher {...theme} />{!session && <div className="demo-banner"><span className="demo-indicator" /><div><strong>Mode demo</strong><small>Data simulasi</small></div></div>}
         <button className="profile" onClick={() => { if (session) void signOut(); else { setEntry(true); setDrawer(false); } }}>
           <span className="avatar">{initials}</span><span><strong>{session ? 'Pemilik usaha' : 'Akun demo'}</strong><small>{session ? 'Keluar dari akun' : 'Masuk ke MAVIQ'}</small></span>{session ? <LogOut size={17} /> : <LogIn size={17} />}
         </button></div>
@@ -237,7 +239,7 @@ function App() {
         <button className="mobile-menu" aria-label="Buka menu" aria-expanded={drawer} aria-controls="sidebar" onClick={() => setDrawer(true)}><Menu size={21} /><span>Menu</span></button>
         <span className="top-rail"><PanelLeft size={17} /></span><button className="breadcrumb-home" onClick={() => go('dashboard')} aria-label="Ke dashboard"><House size={17} /></button>
         <span className="slash">/</span><strong>{links.find(([id]) => id === page)[1]}</strong></div>
-        <div className="top-right">{!session && <span className="demo-chip"><i />Data simulasi</span>}
+        <div className="top-right"><ThemeSwitcher {...theme} />{!session && <span className="demo-chip"><i />Data simulasi</span>}
           <button className="bell" aria-label="Pemberitahuan stok" aria-expanded={popover === 'alerts'} onClick={() => setPopover(popover === 'alerts' ? '' : 'alerts')}><Bell size={19} />{low.length > 0 && <i />}</button>
           <button className="top-profile" aria-label={session ? 'Keluar dari akun' : 'Masuk ke MAVIQ'} onClick={session ? signOut : () => setEntry(true)}><span className="avatar">{initials}</span><ChevronDown size={14} /></button>
           {popover === 'alerts' && <div className="panel alerts"><strong>Pemberitahuan stok</strong><p>{low.length ? low.length + ' bahan berada pada atau di bawah batas minimum.' : 'Stok berada dalam batas aman.'}</p><Button onClick={() => go('stock')}>Buka persediaan</Button></div>}

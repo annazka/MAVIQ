@@ -45,7 +45,7 @@ function SalesChart({ points }) {
       <div className="chart-plot">
         <div className="chart-guides" aria-hidden="true">{ticks.map(tick => <i key={tick} />)}</div>
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img" aria-label="Grafik penjualan bersih dan estimasi laba kotor">
-          <defs><linearGradient id={id} x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stopColor="#12aa98" stopOpacity=".20" /><stop offset="100%" stopColor="#12aa98" stopOpacity=".01" /></linearGradient></defs>
+          <defs><linearGradient id={id} x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stopOpacity=".20" /><stop offset="100%" stopOpacity=".01" /></linearGradient></defs>
           {points.length > 1 && <path d={line('sales') + ` L 100 ${y(0)} L 0 ${y(0)} Z`} fill={`url(#${id})`} />}
           {points.length > 1 && <>
             <path d={line('gross')} className="gross-line" vectorEffect="non-scaling-stroke" />
