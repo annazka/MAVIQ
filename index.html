@@ -1,20 +1,17 @@
 <!doctype html>
-<html lang="id" data-type="software">
+<html lang="id" data-type="software" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="page-type" content="software" />
     <meta name="site-kind" content="software" />
-    <meta name="color-scheme" content="light dark" />
     <script>
       try {
-        const theme = localStorage.getItem('maviq-theme');
-        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+        if (localStorage.getItem('maviq-theme') === 'dark') document.documentElement.dataset.theme = 'dark';
       } catch {}
     </script>
     <style>
-      :root { color-scheme: light dark; background: light-dark(#fafaf7, #020817); }
-      :root[data-theme="light"] { color-scheme: only light; }
+      :root { color-scheme: only light; background: light-dark(#fafaf7, #020817); }
       :root[data-theme="dark"] { color-scheme: only dark; }
     </style>
     <meta name="description" content="MAVIQ membantu pemilik usaha kuliner mencatat penjualan, pembelian, stok, dan arus kas dalam satu tempat." />

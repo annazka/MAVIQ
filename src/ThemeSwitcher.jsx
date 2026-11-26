@@ -1,25 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Monitor, Moon, Sun } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
 
 const storageKey = 'maviq-theme';
-const themes = [
-  ['system', 'Ikuti sistem', Monitor],
-  ['light', 'Terang', Sun],
-  ['dark', 'Gelap', Moon]
-];
-
 function applyTheme(value) {
-  const root = document.documentElement;
-  if (value === 'light' || value === 'dark') {
-    root.dataset.theme = value;
-    return value;
-  }
-  delete root.dataset.theme;
-  return 'system';
+  const theme = value === 'dark' ? 'dark' : 'light';
+  document.documentElement.dataset.theme = theme;
+  return theme;
 }
 
 export function useTheme() {
-  const [value, setValue] = useState(() => document.documentElement.dataset.theme ?? 'system');
+  const [value, setValue] = useState(() => document.documentElement.dataset.theme);
 
   useEffect(() => {
     const syncTheme = event => {
@@ -40,12 +30,10 @@ export function useTheme() {
 }
 
 export default function ThemeSwitcher({ value, onChange }) {
-  const [, label, Icon] = themes.find(([id]) => id === value);
-  return <label className="theme-switcher" title={'Tema tampilan · ' + label}>
+  const dark = value === 'dark';
+  const Icon = dark ? Moon : Sun;
+  return <button type="button" className="theme-switcher" aria-label="Mode gelap" aria-pressed={dark}
+    onClick={() => onChange(dark ? 'light' : 'dark')}>
     <Icon size={18} aria-hidden="true" />
-    <span aria-hidden="true">Tema tampilan</span>
-    <select aria-label="Tema tampilan" value={value} onChange={event => onChange(event.target.value)}>
-      {themes.map(([id, label]) => <option key={id} value={id}>{label}</option>)}
-    </select>
-  </label>;
+  </button>;
 }
