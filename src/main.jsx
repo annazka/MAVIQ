@@ -249,7 +249,7 @@ function App() {
       </main>
     </div>
     {modal && <Modal key={modal.key} modal={modal} ledger={ledger} close={() => setModal(null)} open={open} commit={commit} notify={notify} receiptTools={receiptTools} />}
-    <Chatbot key={session?.user?.id || 'demo'} ledger={ledger} demo={!session} go={go}
+    <Chatbot key={session?.user?.id || 'demo'} ledger={ledger} demo={!session} go={go} blocked={Boolean(modal || drawer)}
       ask={(question, previous) => workspace(session, { action: 'chat', question, previous })} />
     {status}
   </div>;

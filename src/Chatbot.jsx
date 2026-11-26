@@ -4,6 +4,8 @@ import { chatContext, chatPrompts, chatReply, chatTopic } from '../lib/chat.js';
 import './chatbot.css';
 
 const avatar = '/maviq-maskot.webp';
+const bubbleDuration = 6500;
+const idleDelay = (minimum, maximum) => 1000 * (minimum + Math.random() * (maximum - minimum));
 const suggestions = [
   ['stock', 'Stok apa yang menipis?'],
   ['summary', 'Bagaimana penjualan hari ini?'],
@@ -34,9 +36,10 @@ function TypingBubble({ prompt }) {
   </div>;
 }
 
-export default function Chatbot({ ledger, demo, ask, go }) {
+export default function Chatbot({ ledger, demo, ask, go, blocked }) {
   const [open, setOpen] = useState(false);
   const [prompt, setPrompt] = useState(null);
+  const [hovering, setHovering] = useState(false);
   const [messages, setMessages] = useState([]);
   const [pending, setPending] = useState(false);
   const [draft, setDraft] = useState('');
@@ -44,9 +47,6 @@ export default function Chatbot({ ledger, demo, ask, go }) {
   const closeButton = useRef(null);
   const transcript = useRef(null);
   const nextPrompt = useRef(0);
-  const hover = useRef(false);
-  const focus = useRef(false);
-  const quietFocus = useRef(false);
   const sending = useRef(false);
   const lowCount = ledger.ingredients.filter(item => Number(item.quantity) <= Number(item.minimum)).length;
 
@@ -58,19 +58,48 @@ export default function Chatbot({ ledger, demo, ask, go }) {
     if (open && transcript.current) transcript.current.scrollTop = transcript.current.scrollHeight;
   }, [messages, pending, open]);
 
-  const showBubble = () => {
-    const scenarios = chatPrompts(chatContext(ledger));
-    setPrompt({ ...scenarios[nextPrompt.current % scenarios.length], key: nextPrompt.current });
-    nextPrompt.current += 1;
-  };
-  const close = (restoreFocus = true) => {
-    setOpen(false);
+  useEffect(() => {
     setPrompt(null);
-    if (restoreFocus) {
-      quietFocus.current = true;
-      launcher.current?.focus({ preventScroll: true });
-      quietFocus.current = false;
-    }
+    if (open || hovering || blocked) return;
+
+    let timer;
+    const activity = ['pointermove', 'pointerdown', 'keydown', 'scroll'];
+    const schedule = (afterBubble = false) => {
+      if (document.hidden || !document.hasFocus()) return;
+      timer = window.setTimeout(() => {
+        if (document.hidden || !document.hasFocus()) return;
+        const scenarios = chatPrompts(chatContext(ledger));
+        const key = nextPrompt.current++;
+        setPrompt({ ...scenarios[key % scenarios.length], key });
+        timer = window.setTimeout(() => {
+          setPrompt(null);
+          schedule(true);
+        }, bubbleDuration);
+      }, afterBubble ? idleDelay(40, 85) : idleDelay(15, 45));
+    };
+    const restart = () => {
+      window.clearTimeout(timer);
+      setPrompt(null);
+      schedule();
+    };
+    const listenerOptions = { capture: true, passive: true };
+    for (const event of activity) window.addEventListener(event, restart, listenerOptions);
+    document.addEventListener('visibilitychange', restart);
+    window.addEventListener('blur', restart);
+    window.addEventListener('focus', restart);
+    schedule();
+    return () => {
+      window.clearTimeout(timer);
+      for (const event of activity) window.removeEventListener(event, restart, listenerOptions);
+      document.removeEventListener('visibilitychange', restart);
+      window.removeEventListener('blur', restart);
+      window.removeEventListener('focus', restart);
+    };
+  }, [open, hovering, blocked, ledger]);
+
+  const close = () => {
+    setOpen(false);
+    launcher.current?.focus({ preventScroll: true });
   };
   const send = async (input, suggestedTopic) => {
     const question = input.trim();
@@ -91,6 +120,7 @@ export default function Chatbot({ ledger, demo, ask, go }) {
     sending.current = false;
   };
 
+  const visiblePrompt = !open && !hovering && !blocked ? prompt : null;
   return <div className="maviq-chat" onKeyDown={event => {
     if (event.key !== 'Escape') return;
     if (open) {
@@ -98,7 +128,7 @@ export default function Chatbot({ ledger, demo, ask, go }) {
       close();
     } else setPrompt(null);
   }}>
-    {!open && prompt && <TypingBubble key={prompt.key} prompt={prompt} />}
+    {visiblePrompt && <TypingBubble key={visiblePrompt.key} prompt={visiblePrompt} />}
     {open && <section id="maviq-chat-panel" className="chat-panel" role="dialog" aria-label="Chat MAVIQ">
       <header className="chat-header">
         <span className="chat-header-avatar"><img src={avatar} alt="" width="44" height="44" /></span>
@@ -123,28 +153,10 @@ export default function Chatbot({ ledger, demo, ask, go }) {
         <button type="submit" className="chat-icon-button" aria-label="Kirim pesan" disabled={pending || !draft.trim()}><Send size={17} /></button>
       </form>
     </section>}
-    <button ref={launcher} type="button" className="mascot-launcher" aria-label="Chat dengan MAVIQ" aria-expanded={open} aria-describedby={!open && prompt ? 'mascot-preview-text' : undefined} aria-controls={open ? 'maviq-chat-panel' : undefined}
-      onPointerEnter={event => {
-        if (open || event.pointerType === 'touch') return;
-        hover.current = true;
-        if (!focus.current) showBubble();
-      }}
-      onPointerLeave={() => {
-        hover.current = false;
-        if (!focus.current) setPrompt(null);
-      }}
-      onFocus={event => {
-        if (quietFocus.current || open || !event.currentTarget.matches(':focus-visible')) return;
-        focus.current = true;
-        if (!hover.current) showBubble();
-      }}
-      onBlur={() => {
-        focus.current = false;
-        if (!hover.current) setPrompt(null);
-      }}
+    <button ref={launcher} type="button" className="mascot-launcher" aria-label="Chat dengan MAVIQ" aria-expanded={open} aria-describedby={visiblePrompt ? 'mascot-preview-text' : undefined} aria-controls={open ? 'maviq-chat-panel' : undefined}
+      onPointerEnter={event => { if (event.pointerType !== 'touch') setHovering(true); }}
+      onPointerLeave={() => setHovering(false)}
       onClick={() => {
-        focus.current = false;
-        hover.current = false;
         setPrompt(null);
         if (open) close();
         else setOpen(true);

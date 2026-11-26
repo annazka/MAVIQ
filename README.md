@@ -34,6 +34,6 @@ Harga mencantumkan satuan, tanggal publikasi per komoditas, dan perubahan dari p
 
 ## Asisten MAVIQ
 
-Maskot 2D di kanan bawah menampilkan bubble saat hover atau fokus keyboard. Kunjungan pertama memprioritaskan peringatan stok jika ada, lalu bergantian antara sapaan waktu WIB, pengingat transaksi jika hari masih kosong, dan tawaran bantuan. Panel dibuka lewat klik, ketukan, atau Enter.
+Maskot 2D di kanan bawah menampilkan bubble setelah 15–45 detik tanpa interaksi, lalu memberi jeda acak 40–85 detik antar-bubble saat pengguna tetap idle. Bubble muncul selama sekitar 6,5 detik. Hover hanya memicu animasi maskot. Bubble pertama memprioritaskan peringatan stok jika ada, lalu bergantian antara sapaan waktu WIB, pengingat transaksi jika hari masih kosong, dan tawaran bantuan. Panel dibuka lewat klik, ketukan, atau Enter.
 
 Di mode demo, pertanyaan stok, kas, penjualan, dan harga pasar dijawab dari data simulasi. Akun usaha memakai ringkasan milik pengguna dan Gemini untuk pertanyaan bebas melalui endpoint workspace. Chatbot dan briefing berbagi `GEMINI_API_KEY` dan `GEMINI_MODEL`. Percakapan berada di memori peramban selama halaman aktif. Chatbot hanya memberi informasi.
