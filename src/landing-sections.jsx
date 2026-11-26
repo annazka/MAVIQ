@@ -9,7 +9,7 @@ const topics = [
 ];
 
 const questions = [
-  ['Apakah saya harus membuat akun untuk mencoba MAVIQ?', 'Anda bisa membuka demo tanpa akun. Demo memakai data simulasi Kedai Nusa dan menyimpan perubahan di peramban ini.'],
+  ['Bagaimana cara mulai menggunakan MAVIQ?', 'Klik Daftar dan gunakan Google atau email. Setelah masuk, isi nama usaha dan saldo awal untuk membuat ruang kerja Anda.'],
   ['Apa yang terjadi setelah saya memindai struk?', 'Hasil pembacaan masuk ke draf. Anda dapat mengoreksi rincian bahan dan jumlahnya, lalu konfirmasi sebelum stok dan kas diperbarui. Pembelian juga bisa dicatat manual.'],
   ['Dari mana harga bahan pokok berasal?', 'MAVIQ mengambil harga referensi pasar tradisional dari PIHPS Bank Indonesia. Tanggal di setiap komoditas menunjukkan kapan harga itu dipublikasikan.'],
   ['Apakah asisten bisa mengubah transaksi?', 'Asisten membantu membaca stok, kas, dan penjualan. Anda mencatat atau membatalkan transaksi melalui formulir di dashboard.']
@@ -65,7 +65,7 @@ export function MarketSection({ app }) {
   </section>;
 }
 
-export function AssistantSection({ app }) {
+export function AssistantSection({ signUp }) {
   const [topic, setTopic] = useState(0);
   return <section id="asisten" className="land-screen land-assistant">
     <div className="land-wrap land-split">
@@ -73,7 +73,7 @@ export function AssistantSection({ app }) {
         <span className="land-eyebrow"><Sparkles size={17} /> Asisten MAVIQ</span>
         <h2 tabIndex="-1">Ada yang ingin <em>ditanyakan?</em></h2>
         <p>Tanya soal stok, kas, atau penjualan langsung dari data kedai.</p>
-        <a href={app} className="land-button primary">Coba asisten <ArrowRight size={17} /></a>
+        <a href={signUp} className="land-button primary">Daftar untuk gunakan asisten <ArrowRight size={17} /></a>
       </div>
       <div className="land-assistant-card">
         <div className="land-card-heading"><img src="/maviq-maskot.webp" width="70" height="56" alt="" loading="lazy" /><div><strong>Asisten MAVIQ</strong><small>Contoh percakapan · Kedai Nusa</small></div></div>
@@ -90,7 +90,7 @@ export function FaqSection() {
   return <section id="faq" className="land-screen land-faq">
     <div className="land-wrap land-split">
       <div className="land-section-copy"><span className="land-eyebrow"><CircleHelp size={17} /> FAQ</span>
-        <h2 tabIndex="-1">Sebelum <em>mulai.</em></h2><p>Jawaban tentang demo, pembelian, sumber harga, dan asisten MAVIQ.</p></div>
+        <h2 tabIndex="-1">Sebelum <em>mulai.</em></h2><p>Jawaban tentang pendaftaran, pembelian, sumber harga, dan asisten MAVIQ.</p></div>
       <div className="land-faq-list">{questions.map(([question, answer]) =>
         <details name="maviq-faq" key={question}><summary>{question}<Plus size={17} aria-hidden="true" /></summary><p>{answer}</p></details>
       )}</div>

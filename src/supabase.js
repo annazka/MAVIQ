@@ -43,11 +43,6 @@ export async function beginGoogleLogin() {
   location.assign(data.url);
 }
 
-export function isAccountEntry() {
-  const query = new URLSearchParams(location.search);
-  return ['masuk', 'oauth', 'aktivasi', 'pemulihan'].includes(query.get('mode')) || query.has('code');
-}
-
 export async function restoreAccount() {
   const callback = new URL(location.href);
   const params = callback.searchParams;

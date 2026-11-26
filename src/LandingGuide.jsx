@@ -7,8 +7,8 @@ const stops = [
   { id: 'cara-kerja', label: 'Cara kerja', detail: 'Ikuti alur pencatatan kedai', line: 'Catat belanja dan penjualan, lalu cek stok, HPP, dan saldo kas.' },
   { id: 'harga-pasar', label: 'Harga Pasar', detail: 'Lihat harga bahan pokok', line: 'Cek harga referensi pasar tradisional dari PIHPS sebelum belanja.' },
   { id: 'asisten', label: 'Asisten', detail: 'Coba pertanyaan contoh', line: 'Pilih satu contoh pertanyaan untuk melihat cara asisten menjawab soal stok dan kas.' },
-  { id: 'faq', label: 'FAQ', detail: 'Cari jawaban sebelum mulai', line: 'Di sini ada jawaban singkat tentang demo, scan struk, dan penggunaan data.' },
-  { id: 'demo', label: 'Demo', detail: 'Coba dengan data simulasi', line: 'Mau mencoba sendiri? Kedai Nusa sudah punya data simulasi untuk Anda jelajahi.' }
+  { id: 'faq', label: 'FAQ', detail: 'Cari jawaban sebelum mulai', line: 'Di sini ada jawaban singkat tentang pendaftaran, scan struk, dan penggunaan data.' },
+  { id: 'daftar', label: 'Daftar', detail: 'Buat akun dan ruang usaha', line: 'Mulai dengan akun Google atau email, lalu buat ruang kerja untuk kedai Anda.' }
 ];
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), Math.max(min, max));

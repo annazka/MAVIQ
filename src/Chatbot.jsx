@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, CircleAlert, Send, X } from 'lucide-react';
-import { chatContext, chatPrompts, chatReply, chatTopic } from '../lib/chat.js';
+import { chatContext, chatPrompts, chatReply } from '../lib/chat.js';
 import './chatbot.css';
 
 const avatar = '/maviq-maskot.webp';
@@ -36,7 +36,7 @@ function TypingBubble({ prompt }) {
   </div>;
 }
 
-export default function Chatbot({ ledger, demo, ask, go, blocked }) {
+export default function Chatbot({ ledger, ask, go, blocked }) {
   const [open, setOpen] = useState(false);
   const [prompt, setPrompt] = useState(null);
   const [hovering, setHovering] = useState(false);
@@ -120,7 +120,7 @@ export default function Chatbot({ ledger, demo, ask, go, blocked }) {
     setMessages(current => [...current, { id: crypto.randomUUID(), role: 'user', text: question }]);
     let answer;
     try {
-      answer = suggestedTopic || demo ? chatReply(suggestedTopic || chatTopic(question), chatContext(ledger)) : await ask(question, previous);
+      answer = suggestedTopic ? chatReply(suggestedTopic, chatContext(ledger)) : await ask(question, previous);
     } catch {
       answer = { text: 'Chat sedang tidak tersedia. Coba kirim lagi atau pilih salah satu pertanyaan cepat.' };
     }
@@ -142,7 +142,7 @@ export default function Chatbot({ ledger, demo, ask, go, blocked }) {
     {open && <section id="maviq-chat-panel" className="chat-panel" role="dialog" aria-label="Chat MAVIQ">
       <header className="chat-header">
         <span className="chat-header-avatar"><img src={avatar} alt="" width="44" height="44" /></span>
-        <div><h2>Asisten MAVIQ</h2><p>{demo ? 'Data simulasi' : 'Stok, kas, dan penjualan'}</p></div>
+        <div><h2>Asisten MAVIQ</h2><p>Stok, kas, dan penjualan</p></div>
         <button ref={closeButton} type="button" className="chat-icon-button" aria-label="Tutup chat" onClick={() => close()}><X size={20} /></button>
       </header>
       <div className="chat-transcript" ref={transcript} role="log" aria-label="Percakapan" aria-live="polite">

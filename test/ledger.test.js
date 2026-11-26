@@ -2,7 +2,6 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import Decimal from 'decimal.js';
 import { applyCommand, emptyLedger, productCost, summarize } from '../lib/ledger.js';
-import { demoLedger } from '../lib/demo.js';
 
 const date = '2026-11-26';
 const at = date + 'T04:00:00Z';
@@ -89,10 +88,12 @@ test('pengeluaran dan pembatalan tanpa stok menjaga kas, biaya, dan kesegaran br
   assert.equal(summarize(ledger, date, date).cash, '488000');
 });
 
-test('data simulasi memiliki transaksi, stok menipis, dan briefing yang konsisten', () => {
-  const ledger = demoLedger();
-  assert(ledger.entries.length > 10);
-  const briefing = Object.values(ledger.briefings)[0];
-  assert.equal(briefing.version, ledger.dataVersion);
-  assert(briefing.snapshot.low.length > 0);
+test('ruang usaha baru memiliki saldo awal dan pencatatan kosong', () => {
+  const ledger = emptyLedger('Kedai Baru', '12500', at);
+  assert.equal(ledger.name, 'Kedai Baru');
+  assert.equal(summarize(ledger, date, date).cash, '12500');
+  assert.deepEqual(ledger.ingredients, []);
+  assert.deepEqual(ledger.products, []);
+  assert.deepEqual(ledger.entries, []);
+  assert.deepEqual(ledger.briefings, {});
 });
