@@ -64,7 +64,7 @@ function Entry({ mode, goDemo, cancel, notify, setup }) {
       if (mode === 'setup') {
         await setup(fields);
       } else {
-        const auth = register ? await supabase.auth.signUp({ email: fields.email, password: fields.password }) : await supabase.auth.signInWithPassword({ email: fields.email, password: fields.password });
+        const auth = register ? await supabase.auth.signUp({ email: fields.email, password: fields.password, options: { emailRedirectTo: location.origin + '/app/' } }) : await supabase.auth.signInWithPassword({ email: fields.email, password: fields.password });
         if (auth.error) throw auth.error;
         if (register && !auth.data.session) notify('Periksa email untuk mengaktifkan akun.');
       }
@@ -93,7 +93,7 @@ function App() {
   const [demo, setDemo] = useState(readDemo);
   const [session, setSession] = useState(null);
   const [real, setReal] = useState(undefined);
-  const [entry, setEntry] = useState(false);
+  const [entry, setEntry] = useState(() => new URLSearchParams(location.search).get('mode') === 'masuk');
   const [loadError, setLoadError] = useState('');
   const [modal, setModal] = useState(null);
   const [drawer, setDrawer] = useState(false);
