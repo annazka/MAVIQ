@@ -69,44 +69,53 @@
   border-radius: 14px;
   padding: 12px;
 }
-.land-guide-heading { display: flex; gap: 8px; align-items: flex-start; }
-.land-guide-heading > svg { margin-top: 3px; color: #0f766e; }
-.land-guide-heading > div { flex: 1; }
-.landing .land-guide-heading h2 { font: 820 15px 'Plus Jakarta Sans Variable', sans-serif; letter-spacing: -.02em; }
-.land-guide-heading p, .land-tour-status p { margin-top: 3px; color: #51665d; font-size: 11px; line-height: 1.5; }
-.land-guide-icon-button, .land-guide-jumps button, .land-guide-start, .land-guide-stop {
+.land-guide-options {
+  width: min(212px, calc(100vw - 36px));
+  padding: 6px;
+  background: #14372f;
+  border-color: #4b7666;
+  color: #fff;
+}
+.land-guide-options button {
+  display: grid;
+  align-content: center;
+  gap: 3px;
+  width: 100%;
+  min-height: 49px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 8px;
+  text-align: left;
+  color: inherit;
+  background: transparent;
+}
+.land-guide-options button:hover, .land-guide-options button:focus-visible {
+  background: #235043;
+}
+.land-guide-options button:focus-visible {
+  outline-color: #ade6c9;
+  outline-offset: -2px;
+}
+.land-guide-options strong { font-size: 12px; font-weight: 760; }
+.land-guide-options button span { color: #c0d8cd; font-size: 10px; line-height: 1.4; }
+.land-tour-status p { margin-top: 3px; color: #51665d; font-size: 11px; line-height: 1.5; }
+.land-guide-stop {
+  display: flex;
+  align-items: center;
+  gap: 7px;
   min-height: 44px;
+  margin-top: 4px;
+  padding: 0 8px;
+  border: 0;
   border-radius: 7px;
+  background: transparent;
+  color: #15362e;
+  width: 100%;
+  text-align: left;
   font-size: 12px;
   font-weight: 750;
 }
-.land-guide-icon-button { display: grid; place-items: center; width: 44px; padding: 0; background: transparent; color: #15362e; border: 0; }
-.land-guide-icon-button:hover, .land-guide-jumps button:hover, .land-guide-stop:hover { background: #e8f4ed; }
-.land-guide-start {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-  width: 100%;
-  margin: 8px 0 4px;
-  border: 0;
-  background: #0f766e;
-  color: white;
-}
-.land-guide-start:hover { background: #0b665e; }
-.land-guide-jumps button, .land-guide-stop {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 7px;
-  background: transparent;
-  color: #15362e;
-  border: 0;
-  padding: 0 8px;
-  width: 100%;
-  text-align: left;
-}
-.land-guide-stop { justify-content: flex-start; margin-top: 4px; }
+.land-guide-stop:hover { background: #e8f4ed; }
 .land-tour-status strong { font-size: 12px; }
 .land-footer { padding-right: 108px; }
 
@@ -121,6 +130,7 @@
 }
 @media (max-width: 550px) {
   .land-guide { --guide-edge: max(10px, env(safe-area-inset-right)); --guide-width: 86px; --guide-height: 81px; }
-  .land-guide-panel { width: min(312px, calc(100vw - 20px)); max-height: calc(100dvh - 105px); }
+  .land-guide-panel { max-height: calc(100dvh - 105px); }
+  .land-guide-tour { width: min(312px, calc(100vw - 20px)); }
   .land-footer { padding-right: 61px; }
 }

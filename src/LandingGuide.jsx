@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowDown, ArrowUp, CircleStop, Map, Play, X } from 'lucide-react';
+import { CircleStop } from 'lucide-react';
 import './landing-guide.css';
 
 const stops = [
-  { id: 'fitur', label: 'Fitur', line: 'Mulai dari struk. Periksa draf pembelian sebelum stok dan kas diperbarui.' },
-  { id: 'cara-kerja', label: 'Cara kerja', line: 'Catat belanja dan penjualan, lalu cek stok, HPP, dan saldo kas.' },
-  { id: 'demo', label: 'Demo', line: 'Mau mencoba sendiri? Kedai Nusa sudah punya data simulasi untuk Anda jelajahi.' }
+  { id: 'fitur', label: 'Fitur', detail: 'Lihat fitur utama MAVIQ', line: 'Mulai dari struk. Periksa draf pembelian sebelum stok dan kas diperbarui.' },
+  { id: 'cara-kerja', label: 'Cara kerja', detail: 'Ikuti alur pencatatan kedai', line: 'Catat belanja dan penjualan, lalu cek stok, HPP, dan saldo kas.' },
+  { id: 'demo', label: 'Demo', detail: 'Coba dengan data simulasi', line: 'Mau mencoba sendiri? Kedai Nusa sudah punya data simulasi untuk Anda jelajahi.' }
 ];
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), Math.max(min, max));
@@ -35,8 +35,9 @@ export default function LandingGuide() {
   const [hint, setHint] = useState('');
   const [position, setPosition] = useState(null);
   const [dragging, setDragging] = useState(false);
+  const guide = useRef(null);
   const mascot = useRef(null);
-  const closeMenuButton = useRef(null);
+  const firstOption = useRef(null);
   const stopTourButton = useRef(null);
   const activePointer = useRef(null);
   const skipClick = useRef(false);
@@ -53,7 +54,17 @@ export default function LandingGuide() {
   }, [position]);
 
   useEffect(() => {
-    if (menu) closeMenuButton.current?.focus({ preventScroll: true });
+    if (!menu) return;
+    firstOption.current?.focus({ preventScroll: true });
+    const dismiss = event => {
+      if (!guide.current?.contains(event.target)) setMenu(false);
+    };
+    window.addEventListener('pointerdown', dismiss);
+    window.addEventListener('focusin', dismiss);
+    return () => {
+      window.removeEventListener('pointerdown', dismiss);
+      window.removeEventListener('focusin', dismiss);
+    };
   }, [menu]);
 
   useEffect(() => {
@@ -107,7 +118,7 @@ export default function LandingGuide() {
     setDragging(false);
   };
 
-  return <aside className="land-guide" aria-label="Panduan landing page" onKeyDown={event => {
+  return <aside ref={guide} className="land-guide" aria-label="Panduan landing page" onKeyDown={event => {
     if (event.key === 'Escape' && menu) closeMenu();
   }}>
     {hint && !menu && tour === null && !dragging && <div id="land-guide-hint" className="land-guide-hint" style={position ? {
@@ -151,12 +162,20 @@ export default function LandingGuide() {
       <img src="/maviq-maskot.webp" width="110" height="90" alt="" draggable="false" />
       <span className="land-guide-label">Panduan</span>
     </button>
-    {menu && <section id="land-guide-menu" className="land-guide-panel" aria-label="Menu panduan">
-      <div className="land-guide-heading"><Map size={19} /><div><h2>Jelajahi MAVIQ</h2><p>Ikuti tur atau pilih bagian yang ingin Anda lihat.</p></div>
-        <button ref={closeMenuButton} type="button" className="land-guide-icon-button" aria-label="Tutup panduan" onClick={closeMenu}><X size={18} /></button></div>
-      <button type="button" className="land-guide-start" onClick={startTour}><Play size={16} /> Mulai tur otomatis</button>
-      <div className="land-guide-jumps">{stops.map(stop => <button type="button" onClick={() => jump(stop.id)} key={stop.id}>{stop.label}<ArrowDown size={15} /></button>)}
-        <button type="button" onClick={() => jump('beranda')}>Kembali ke atas<ArrowUp size={15} /></button></div>
+    {menu && <section id="land-guide-menu" className="land-guide-panel land-guide-options" aria-label="Menu panduan">
+      <button ref={firstOption} type="button" aria-labelledby="guide-tour-label" aria-describedby="guide-tour-detail" onClick={startTour}>
+        <strong id="guide-tour-label">Mulai tur otomatis</strong>
+        <span id="guide-tour-detail">Saya pandu bagian demi bagian</span>
+      </button>
+      {stops.map(stop => <button type="button" key={stop.id} aria-labelledby={'guide-label-' + stop.id}
+        aria-describedby={'guide-detail-' + stop.id} onClick={() => jump(stop.id)}>
+        <strong id={'guide-label-' + stop.id}>{stop.label}</strong>
+        <span id={'guide-detail-' + stop.id}>{stop.detail}</span>
+      </button>)}
+      <button type="button" aria-labelledby="guide-top-label" aria-describedby="guide-top-detail" onClick={() => jump('beranda')}>
+        <strong id="guide-top-label">Kembali ke atas</strong>
+        <span id="guide-top-detail">Lihat beranda lagi</span>
+      </button>
     </section>}
     {tour !== null && <div className="land-guide-panel land-guide-tour">
       <div role="status" className="land-tour-status"><strong>{tour + 1} / {stops.length} · {stops[tour].label}</strong><p>{stops[tour].line}</p></div>
