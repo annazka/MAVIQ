@@ -5,6 +5,9 @@ import './landing-guide.css';
 const stops = [
   { id: 'fitur', label: 'Fitur', detail: 'Lihat fitur utama MAVIQ', line: 'Mulai dari struk. Periksa draf pembelian sebelum stok dan kas diperbarui.' },
   { id: 'cara-kerja', label: 'Cara kerja', detail: 'Ikuti alur pencatatan kedai', line: 'Catat belanja dan penjualan, lalu cek stok, HPP, dan saldo kas.' },
+  { id: 'harga-pasar', label: 'Harga Pasar', detail: 'Lihat harga bahan pokok', line: 'Cek harga referensi pasar tradisional dari PIHPS sebelum belanja.' },
+  { id: 'asisten', label: 'Asisten', detail: 'Coba pertanyaan contoh', line: 'Pilih satu contoh pertanyaan untuk melihat cara asisten menjawab soal stok dan kas.' },
+  { id: 'faq', label: 'FAQ', detail: 'Cari jawaban sebelum mulai', line: 'Di sini ada jawaban singkat tentang demo, scan struk, dan penggunaan data.' },
   { id: 'demo', label: 'Demo', detail: 'Coba dengan data simulasi', line: 'Mau mencoba sendiri? Kedai Nusa sudah punya data simulasi untuk Anda jelajahi.' }
 ];
 
