@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createClient } from '@supabase/supabase-js';
-import { Bell, Boxes, ChevronDown, ChevronsUpDown, CircleAlert, CircleCheck, Coffee, House, LayoutDashboard, LogIn, LogOut, Menu, PanelLeft, ShoppingBasket, ShoppingCart, Store, Wallet, X } from 'lucide-react';
+import { Bell, Boxes, ChevronDown, ChevronsUpDown, CircleAlert, CircleCheck, Coffee, House, LayoutDashboard, LogIn, LogOut, Menu, PanelLeft, ShoppingBasket, ShoppingCart, Store, Wallet, Wheat, X } from 'lucide-react';
 import '@fontsource-variable/plus-jakarta-sans';
 import { applyCommand, emptyLedger } from '../lib/ledger.js';
 import { demoLedger } from '../lib/demo.js';
 import Dashboard from './Dashboard.jsx';
 import Pages from './Pages.jsx';
+import MarketPrices from './MarketPrices.jsx';
 import Modal, { Field } from './forms.jsx';
 import { Button } from './ui.jsx';
 import './style.css';
@@ -19,7 +20,7 @@ const supabase = url && publicKey ? createClient(url, publicKey) : null;
 
 const links = [
   ['dashboard', 'Dashboard', LayoutDashboard], ['sales', 'Penjualan', ShoppingCart], ['purchases', 'Pembelian', ShoppingBasket],
-  ['stock', 'Bahan & Stok', Boxes], ['products', 'Produk & Resep', Coffee], ['cash', 'Keuangan', Wallet]
+  ['stock', 'Bahan & Stok', Boxes], ['products', 'Produk & Resep', Coffee], ['cash', 'Keuangan', Wallet], ['market', 'Harga Pasar', Wheat]
 ];
 const currentPage = () => links.find(([path]) => '#' + path === location.hash)?.[0] || 'dashboard';
 const readDemo = () => {
@@ -243,7 +244,7 @@ function App() {
       </header>
       <main id="main-content" className="main-content">
         {page === 'dashboard' ? <Dashboard ledger={ledger} demo={!session} go={go} open={open} commit={commit} busy={busy} notify={notify} /> :
-          <Pages key={page} page={page} ledger={ledger} open={open} />}
+          page === 'market' ? <MarketPrices /> : <Pages key={page} page={page} ledger={ledger} open={open} />}
       </main>
     </div>
     {modal && <Modal key={modal.key} modal={modal} ledger={ledger} close={() => setModal(null)} open={open} commit={commit} notify={notify} receiptTools={receiptTools} />}

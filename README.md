@@ -24,4 +24,10 @@ Kredensial server harus disimpan sebagai secret Vercel. Variabel dengan awalan `
 
 Frontend Vite dapat dijalankan sendiri untuk demo. Gunakan `vercel dev` atau Preview Deployment saat menguji fungsi server. Penyimpanan MVP menggunakan satu snapshot PostgreSQL per pemilik dengan pembaruan bersyarat pada revisi yang sama. Server memvalidasi perintah dan menyimpan perubahan stok, kas, dan riwayat sebagai satu pembaruan atomik. Kiriman ulang menggunakan ID perintah. Unggahan struk disimpan di bucket privat per pemilik.
 
-Uji lokal mencakup pembanding finansial pada workflow. Konfigurasi Auth, OCR, dan Gemini perlu diuji dengan kredensial preview yang sebenarnya sebelum demonstrasi end-to-end. Harga pasar dan ekspor berada di luar cakupan preview ini.
+Uji lokal mencakup pembanding finansial pada workflow. Konfigurasi Auth, OCR, dan Gemini perlu diuji dengan kredensial preview yang sebenarnya sebelum demonstrasi end-to-end. Ekspor berada di luar cakupan preview ini.
+
+## Harga pasar harian
+
+Menu **Harga Pasar** mengambil harga referensi pasar tradisional dari [PIHPS Nasional Bank Indonesia](https://www.bi.go.id/hargapangan/TabelHarga/PasarTradisionalDaerah) melalui endpoint publik yang digunakan tabel PIHPS. Fitur ini berjalan di mode demo dan akun usaha, tanpa API key tambahan. Pilih data nasional atau provinsi yang tersedia di PIHPS dan tanggal hingga satu tahun terakhir.
+
+Harga mencantumkan satuan, tanggal publikasi per komoditas, dan perubahan dari publikasi sebelumnya dalam delapan hari terakhir. Jika data belum terbit, aplikasi menampilkan publikasi terakhir yang tersedia pada rentang tersebut. Jika sumber sedang gagal, aplikasi dapat menampilkan salinan terakhir di peramban untuk wilayah dan tanggal yang sama. Harga referensi ditampilkan terpisah dari transaksi dan HPP MAVIQ.
