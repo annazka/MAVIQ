@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { CircleStop } from 'lucide-react';
 import './landing-guide.css';
 
@@ -10,6 +10,39 @@ const stops = [
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), Math.max(min, max));
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function placePopup(mascot, popup) {
+  const anchor = mascot.getBoundingClientRect();
+  const edge = 10;
+  const gap = 8;
+  const width = popup.offsetWidth;
+  const height = popup.scrollHeight + popup.offsetHeight - popup.clientHeight;
+  const spaceAbove = anchor.top - gap - edge;
+  const spaceBelow = window.innerHeight - anchor.bottom - gap - edge;
+  const centered = clamp(anchor.left + (anchor.width - width) / 2, edge, window.innerWidth - width - edge);
+  let left = centered;
+  let top;
+  let maxHeight = window.innerHeight - edge * 2;
+
+  if (height <= spaceAbove) {
+    top = anchor.top - gap - height;
+  } else if (height <= spaceBelow) {
+    top = anchor.bottom + gap;
+  } else if (anchor.right + gap + width <= window.innerWidth - edge || anchor.left - gap - width >= edge) {
+    left = anchor.right + gap + width <= window.innerWidth - edge ? anchor.right + gap : anchor.left - gap - width;
+    top = clamp(anchor.top + (anchor.height - height) / 2, edge, window.innerHeight - height - edge);
+  } else if (spaceAbove >= spaceBelow) {
+    top = edge;
+    maxHeight = spaceAbove;
+  } else {
+    top = anchor.bottom + gap;
+    maxHeight = spaceBelow;
+  }
+
+  popup.style.left = left + 'px';
+  popup.style.top = top + 'px';
+  popup.style.maxHeight = maxHeight + 'px';
+}
 
 function scrollToStop(id, focusHeading = false) {
   const section = document.getElementById(id);
@@ -37,6 +70,7 @@ export default function LandingGuide() {
   const [dragging, setDragging] = useState(false);
   const guide = useRef(null);
   const mascot = useRef(null);
+  const popup = useRef(null);
   const firstOption = useRef(null);
   const stopTourButton = useRef(null);
   const activePointer = useRef(null);
@@ -52,6 +86,23 @@ export default function LandingGuide() {
     window.addEventListener('resize', keepOnScreen);
     return () => window.removeEventListener('resize', keepOnScreen);
   }, [position]);
+
+  const showHint = Boolean(hint && !menu && tour === null && !dragging);
+  useLayoutEffect(() => {
+    const panel = popup.current;
+    const anchor = mascot.current;
+    if (!panel || !anchor) return;
+    const update = () => placePopup(anchor, panel);
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(anchor);
+    observer.observe(panel);
+    window.addEventListener('resize', update);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', update);
+    };
+  }, [position, menu, tour, showHint, hint]);
 
   useEffect(() => {
     if (!menu) return;
@@ -121,14 +172,11 @@ export default function LandingGuide() {
   return <aside ref={guide} className="land-guide" aria-label="Panduan landing page" onKeyDown={event => {
     if (event.key === 'Escape' && menu) closeMenu();
   }}>
-    {hint && !menu && tour === null && !dragging && <div id="land-guide-hint" className="land-guide-hint" style={position ? {
-      left: clamp(position.x + 45 - 114, 10, window.innerWidth - Math.min(228, window.innerWidth - 20) - 10),
-      ...(position.y > 120 ? { top: position.y - 8, transform: 'translateY(-100%)' } : { top: position.y + 98 })
-    } : undefined}>{hint}</div>}
+    {showHint && <div ref={popup} id="land-guide-hint" className="land-guide-hint">{hint}</div>}
     <button ref={mascot} type="button" className={'land-guide-launcher' + (dragging ? ' dragging' : '')}
       style={position ? { left: position.x, top: position.y, bottom: 'auto', right: 'auto' } : undefined}
       aria-label="Panduan MAVIQ" aria-expanded={menu} aria-controls={menu ? 'land-guide-menu' : undefined}
-      aria-describedby={hint && !menu && tour === null ? 'land-guide-hint' : undefined}
+      aria-describedby={showHint ? 'land-guide-hint' : undefined}
       onPointerEnter={event => { if (event.pointerType === 'mouse' && !activePointer.current && !menu && tour === null) setHint(currentHint()); }}
       onPointerLeave={() => setHint('')}
       onPointerDown={event => {
@@ -159,10 +207,9 @@ export default function LandingGuide() {
         if (menu) closeMenu();
         else setMenu(true);
       }}>
-      <img src="/maviq-maskot.webp" width="110" height="90" alt="" draggable="false" />
-      <span className="land-guide-label">Panduan</span>
+      <img src="/maviq-maskot.webp" width="125" height="100" alt="" draggable="false" />
     </button>
-    {menu && <section id="land-guide-menu" className="land-guide-panel land-guide-options" aria-label="Menu panduan">
+    {menu && <section ref={popup} id="land-guide-menu" className="land-guide-panel land-guide-options" aria-label="Menu panduan">
       <button ref={firstOption} type="button" aria-labelledby="guide-tour-label" aria-describedby="guide-tour-detail" onClick={startTour}>
         <strong id="guide-tour-label">Mulai tur otomatis</strong>
         <span id="guide-tour-detail">Saya pandu bagian demi bagian</span>
@@ -177,7 +224,7 @@ export default function LandingGuide() {
         <span id="guide-top-detail">Lihat beranda lagi</span>
       </button>
     </section>}
-    {tour !== null && <div className="land-guide-panel land-guide-tour">
+    {tour !== null && <div ref={popup} className="land-guide-panel land-guide-tour">
       <div role="status" className="land-tour-status"><strong>{tour + 1} / {stops.length} · {stops[tour].label}</strong><p>{stops[tour].line}</p></div>
       <button ref={stopTourButton} type="button" className="land-guide-stop" onClick={() => {
         window.scrollTo({ top: window.scrollY, behavior: 'instant' });

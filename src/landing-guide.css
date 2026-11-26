@@ -1,7 +1,7 @@
 .land-guide {
   --guide-edge: max(18px, env(safe-area-inset-right));
   --guide-floor: max(12px, env(safe-area-inset-bottom));
-  --guide-width: 112px;
+  --guide-width: 128px;
   --guide-height: 104px;
 }
 
@@ -27,26 +27,15 @@
 .land-guide-launcher.dragging { cursor: grabbing; }
 .land-guide-launcher img {
   width: calc(var(--guide-width) - 5px);
-  height: calc(var(--guide-height) - 17px);
+  height: calc(var(--guide-height) - 4px);
   object-fit: contain;
   filter: drop-shadow(0 5px 7px #1e423743);
   pointer-events: none;
 }
-.land-guide-label {
-  margin-top: -3px;
-  font-size: 10px;
-  font-weight: 820;
-  background: #f5fcf8;
-  border: 1px solid #d2e8dc;
-  border-radius: 30px;
-  padding: 2px 8px;
-}
-
 .land-guide-hint, .land-guide-panel {
   position: fixed;
   z-index: 11;
-  right: var(--guide-edge);
-  bottom: calc(var(--guide-floor) + var(--guide-height) + 8px);
+  max-height: calc(100dvh - 20px);
   border: 1px solid #d3e6dc;
   background: #fcfffd;
   color: #15362e;
@@ -61,10 +50,8 @@
   font-weight: 750;
   line-height: 1.5;
 }
-.land-guide-hint[style] { right: auto; bottom: auto; }
 .land-guide-panel {
   width: min(312px, calc(100vw - 36px));
-  max-height: calc(100dvh - 130px);
   overflow: auto;
   border-radius: 14px;
   padding: 12px;
@@ -129,8 +116,7 @@
   @keyframes land-guide-appear { from { opacity: 0; } }
 }
 @media (max-width: 550px) {
-  .land-guide { --guide-edge: max(10px, env(safe-area-inset-right)); --guide-width: 86px; --guide-height: 81px; }
-  .land-guide-panel { max-height: calc(100dvh - 105px); }
+  .land-guide { --guide-edge: max(10px, env(safe-area-inset-right)); --guide-width: 100px; --guide-height: 81px; }
   .land-guide-tour { width: min(312px, calc(100vw - 20px)); }
   .land-footer { padding-right: 61px; }
 }
