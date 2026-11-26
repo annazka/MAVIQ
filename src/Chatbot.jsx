@@ -60,7 +60,18 @@ export default function Chatbot({ ledger, demo, ask, go, blocked }) {
 
   useEffect(() => {
     setPrompt(null);
-    if (open || hovering || blocked) return;
+    if (open || blocked) return;
+
+    const showPrompt = trigger => {
+      const scenarios = chatPrompts(chatContext(ledger));
+      const key = nextPrompt.current++;
+      setPrompt({ ...scenarios[key % scenarios.length], key, trigger });
+    };
+
+    if (hovering) {
+      showPrompt('hover');
+      return;
+    }
 
     let timer;
     const activity = ['pointermove', 'pointerdown', 'keydown', 'scroll'];
@@ -68,9 +79,7 @@ export default function Chatbot({ ledger, demo, ask, go, blocked }) {
       if (document.hidden || !document.hasFocus()) return;
       timer = window.setTimeout(() => {
         if (document.hidden || !document.hasFocus()) return;
-        const scenarios = chatPrompts(chatContext(ledger));
-        const key = nextPrompt.current++;
-        setPrompt({ ...scenarios[key % scenarios.length], key });
+        showPrompt('idle');
         timer = window.setTimeout(() => {
           setPrompt(null);
           schedule(true);
@@ -120,7 +129,8 @@ export default function Chatbot({ ledger, demo, ask, go, blocked }) {
     sending.current = false;
   };
 
-  const visiblePrompt = !open && !hovering && !blocked ? prompt : null;
+  const activeTrigger = hovering ? 'hover' : 'idle';
+  const visiblePrompt = !open && !blocked && prompt?.trigger === activeTrigger ? prompt : null;
   return <div className="maviq-chat" onKeyDown={event => {
     if (event.key !== 'Escape') return;
     if (open) {
@@ -161,7 +171,7 @@ export default function Chatbot({ ledger, demo, ask, go, blocked }) {
         if (open) close();
         else setOpen(true);
       }}>
-      <img src={avatar} alt="" width="100" height="82" />
+      <img src={avatar} alt="" width="114" height="94" />
       {lowCount > 0 && !open && <span className="mascot-notification" aria-hidden="true">{lowCount > 9 ? '9+' : lowCount}</span>}
     </button>
   </div>;

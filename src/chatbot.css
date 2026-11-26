@@ -1,4 +1,4 @@
-.app-main .main-content { padding-bottom: 100px; }
+.app-main .main-content { padding-bottom: 114px; }
 
 .maviq-chat {
   position: fixed;
@@ -11,8 +11,8 @@
   position: relative;
   display: grid;
   place-items: center;
-  width: 104px;
-  height: 88px;
+  width: 118px;
+  height: 100px;
   padding: 1px;
   border: 0;
   border-radius: 24px;
@@ -82,7 +82,7 @@
   right: 0;
   bottom: calc(100% + 7px);
   width: min(376px, calc(100vw - 32px));
-  height: min(490px, calc(100dvh - 125px));
+  height: min(490px, calc(100dvh - 137px));
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -135,7 +135,7 @@
 }
 @media (max-width: 550px) {
   .maviq-chat { right: max(10px, env(safe-area-inset-right)); bottom: max(8px, env(safe-area-inset-bottom)); }
-  .mascot-launcher { width: 83px; height: 69px; }
-  .mascot-launcher img { width: 80px; height: 66px; }
-  .chat-panel { width: min(376px, calc(100vw - 20px)); height: min(490px, calc(100dvh - 97px)); }
+  .mascot-launcher { width: 94px; height: 79px; }
+  .mascot-launcher img { width: 91px; height: 75px; }
+  .chat-panel { width: min(376px, calc(100vw - 20px)); height: min(490px, calc(100dvh - 107px)); }
 }
