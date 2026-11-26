@@ -1,0 +1,126 @@
+.land-guide {
+  --guide-edge: max(18px, env(safe-area-inset-right));
+  --guide-floor: max(12px, env(safe-area-inset-bottom));
+  --guide-width: 112px;
+  --guide-height: 104px;
+}
+
+.land-guide-launcher {
+  position: fixed;
+  z-index: 10;
+  right: var(--guide-edge);
+  bottom: var(--guide-floor);
+  width: var(--guide-width);
+  height: var(--guide-height);
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  border: 0;
+  border-radius: 24px;
+  background: transparent;
+  padding: 0;
+  color: #15362e;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+.land-guide-launcher.dragging { cursor: grabbing; }
+.land-guide-launcher img {
+  width: calc(var(--guide-width) - 5px);
+  height: calc(var(--guide-height) - 17px);
+  object-fit: contain;
+  filter: drop-shadow(0 5px 7px #1e423743);
+  pointer-events: none;
+}
+.land-guide-label {
+  margin-top: -3px;
+  font-size: 10px;
+  font-weight: 820;
+  background: #f5fcf8;
+  border: 1px solid #d2e8dc;
+  border-radius: 30px;
+  padding: 2px 8px;
+}
+
+.land-guide-hint, .land-guide-panel {
+  position: fixed;
+  z-index: 11;
+  right: var(--guide-edge);
+  bottom: calc(var(--guide-floor) + var(--guide-height) + 8px);
+  border: 1px solid #d3e6dc;
+  background: #fcfffd;
+  color: #15362e;
+  box-shadow: 0 8px 32px #143e302a;
+}
+.land-guide-hint {
+  width: min(228px, calc(100vw - 20px));
+  border-radius: 12px 12px 4px 12px;
+  padding: 10px 12px;
+  pointer-events: none;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.5;
+}
+.land-guide-hint[style] { right: auto; bottom: auto; }
+.land-guide-panel {
+  width: min(312px, calc(100vw - 36px));
+  max-height: calc(100dvh - 130px);
+  overflow: auto;
+  border-radius: 14px;
+  padding: 12px;
+}
+.land-guide-heading { display: flex; gap: 8px; align-items: flex-start; }
+.land-guide-heading > svg { margin-top: 3px; color: #0f766e; }
+.land-guide-heading > div { flex: 1; }
+.landing .land-guide-heading h2 { font: 820 15px 'Plus Jakarta Sans Variable', sans-serif; letter-spacing: -.02em; }
+.land-guide-heading p, .land-tour-status p { margin-top: 3px; color: #51665d; font-size: 11px; line-height: 1.5; }
+.land-guide-icon-button, .land-guide-jumps button, .land-guide-start, .land-guide-stop {
+  min-height: 44px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 750;
+}
+.land-guide-icon-button { display: grid; place-items: center; width: 44px; padding: 0; background: transparent; color: #15362e; border: 0; }
+.land-guide-icon-button:hover, .land-guide-jumps button:hover, .land-guide-stop:hover { background: #e8f4ed; }
+.land-guide-start {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  margin: 8px 0 4px;
+  border: 0;
+  background: #0f766e;
+  color: white;
+}
+.land-guide-start:hover { background: #0b665e; }
+.land-guide-jumps button, .land-guide-stop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  color: #15362e;
+  border: 0;
+  padding: 0 8px;
+  width: 100%;
+  text-align: left;
+}
+.land-guide-stop { justify-content: flex-start; margin-top: 4px; }
+.land-tour-status strong { font-size: 12px; }
+.land-footer { padding-right: 108px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .land-guide-launcher img { animation: land-guide-float 3.4s ease-in-out infinite; }
+  .land-guide-launcher:is(:hover, :focus-visible) img { animation: land-guide-wave .6s ease-out both; }
+  .land-guide-launcher.dragging img { animation: none; transform: rotate(-8deg) scale(1.04); }
+  .land-guide-hint, .land-guide-panel { animation: land-guide-appear .18s ease-out both; }
+  @keyframes land-guide-float { 50% { transform: translateY(-7px) rotate(3deg); } }
+  @keyframes land-guide-wave { 35% { transform: translateY(-7px) rotate(-10deg); } 70% { transform: translateY(-3px) rotate(6deg); } }
+  @keyframes land-guide-appear { from { opacity: 0; } }
+}
+@media (max-width: 550px) {
+  .land-guide { --guide-edge: max(10px, env(safe-area-inset-right)); --guide-width: 86px; --guide-height: 81px; }
+  .land-guide-panel { width: min(312px, calc(100vw - 20px)); max-height: calc(100dvh - 105px); }
+  .land-footer { padding-right: 61px; }
+}

@@ -5,6 +5,7 @@ import '@fontsource-variable/plus-jakarta-sans';
 import '@fontsource/instrument-serif/400.css';
 import '@fontsource/instrument-serif/400-italic.css';
 import './landing.css';
+import LandingGuide from './LandingGuide.jsx';
 
 const app = '/app/';
 const signIn = app + '?mode=masuk';
@@ -58,7 +59,7 @@ const previews = { purchases: ReceiptPreview, stock: StockPreview, dashboard: Sa
 function Landing() {
   const [feature, setFeature] = useState(featureData[0]);
   const Preview = previews[feature.id];
-  return <div className="landing">
+  return <div id="beranda" className="landing">
     <a className="land-skip" href="#konten">Langsung ke konten</a>
     <header className="land-header">
       <div className="land-wrap land-header-inner">
@@ -71,7 +72,7 @@ function Landing() {
       <section className="land-hero land-wrap">
         <div className="land-hero-copy" data-enter>
           <span className="land-eyebrow"><Coffee size={17} /> Untuk UMKM kuliner</span>
-          <h1>Kelola kedai <em>lebih tenang.</em></h1>
+          <h1 tabIndex="-1">Kelola kedai <em>lebih tenang.</em></h1>
           <p>Foto struk belanja, catat penjualan, dan pantau stok serta kas. MAVIQ membantu Anda melihat kondisi usaha dalam satu dashboard.</p>
           <div className="land-actions"><a className="land-button primary" href={app}>Coba dashboard demo <ArrowRight size={19} /></a><a className="land-button text-link" href="#cara-kerja">Lihat cara kerja <ArrowDown size={17} /></a></div>
           <span className="land-demo-note"><Check size={15} /> Bisa dicoba tanpa akun</span>
@@ -85,7 +86,7 @@ function Landing() {
       <section id="fitur" className="land-features">
         <div className="land-wrap land-feature-inner">
           <div className="land-feature-copy">
-            <h2>Dari nota belanja <em>ke laporan usaha.</em></h2>
+            <h2 tabIndex="-1">Dari nota belanja <em>ke laporan usaha.</em></h2>
             <p>Setiap pembelian dan penjualan ikut memperbarui angka yang Anda pakai untuk mengelola kedai.</p>
             <div className="land-feature-list" aria-label="Pilih contoh fitur">
               {featureData.map(item => <button key={item.id} aria-pressed={feature.id === item.id} type="button" onClick={() => setFeature(item)}>
@@ -103,7 +104,7 @@ function Landing() {
       </section>
 
       <section id="cara-kerja" className="land-workflow land-wrap">
-        <div className="land-workflow-heading"><h2>Mulai dari <em>rutinitas harian.</em></h2><p>Tiga langkah untuk melihat bagaimana transaksi kedai terhubung.</p></div>
+        <div className="land-workflow-heading"><h2 tabIndex="-1">Mulai dari <em>rutinitas harian.</em></h2><p>Tiga langkah untuk melihat bagaimana transaksi kedai terhubung.</p></div>
         <div className="land-steps">
           <article><span className="land-icon"><ScanLine size={23} /></span><h3>Catat belanja</h3><p>Foto struk atau masukkan pembelian manual. Periksa rincian bahan dan total sebelum menyimpan.</p></article>
           <article><span className="land-icon"><ShoppingCart size={23} /></span><h3>Catat penjualan</h3><p>Pilih produk dan jumlah pesanan. MAVIQ menghitung estimasi HPP dari resep dan memperbarui stok.</p></article>
@@ -115,10 +116,11 @@ function Landing() {
         </div>
       </section>
 
-      <section className="land-final land-wrap"><div className="land-final-card"><div><h2>Mulai dengan <em>Kedai Nusa.</em></h2><p>Coba alur MAVIQ dengan data kedai simulasi yang sudah terisi.</p><a className="land-button primary" href={app}>Buka dashboard demo <ArrowRight size={19} /></a></div>
+      <section id="demo" className="land-final land-wrap"><div className="land-final-card"><div><h2 tabIndex="-1">Mulai dengan <em>Kedai Nusa.</em></h2><p>Coba alur MAVIQ dengan data kedai simulasi yang sudah terisi.</p><a className="land-button primary" href={app}>Buka dashboard demo <ArrowRight size={19} /></a></div>
         <img src="/maviq-maskot.webp" alt="Maskot MAVIQ melambaikan tangan" width="225" height="185" loading="lazy" /></div></section>
     </main>
     <footer className="land-footer land-wrap"><a href="/" aria-label="MAVIQ beranda"><Logo /></a><span>Operasional usaha kuliner</span><a href={signIn}>Masuk ke MAVIQ <ArrowDownRight size={15} /></a></footer>
+    <LandingGuide />
   </div>;
 }
 

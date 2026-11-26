@@ -13,7 +13,7 @@ npm run build
 
 Impor repo ke Vercel sebagai proyek Vite dan pilih branch `tes` untuk membuat Preview Deployment. Build memakai Node.js 22 atau lebih baru dan menghasilkan folder `dist`. Mode demo langsung dapat dipakai tanpa konfigurasi. Data simulasi tersimpan per peramban di localStorage.
 
-Pada branch `landing-page`, halaman publik tersedia di `/` dan dashboard di `/app/`. Pilih branch tersebut untuk meninjau landing page di Vercel.
+Pada branch `landing-page`, halaman publik tersedia di `/` dan dashboard di `/app/`. Pilih branch tersebut untuk meninjau landing page di Vercel. Maskot **Panduan** dapat diseret, membuka tautan ke bagian halaman, dan memulai tur otomatis yang berhenti saat pengunjung kembali menggulir.
 
 ## Usaha dengan Supabase
 
