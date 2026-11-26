@@ -364,3 +364,8 @@ small, .muted { color: var(--slate); }
   .market-table th:last-child, .market-table td:last-child { display: none; }
   .market-table .market-mobile-date { display: block; }
 }
+
+.entry-google { display: grid; gap: 10px; margin-bottom: 12px; }
+.entry-google > span { display: flex; align-items: center; gap: 8px; color: var(--slate); font-size: 11px; justify-content: center; }
+.entry-google > span::before, .entry-google > span::after { content: ''; flex: 1; border-top: 1px solid var(--line); }
+.google-button { min-height: 44px; }

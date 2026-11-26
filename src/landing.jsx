@@ -131,7 +131,7 @@ function Landing() {
 
 const hash = location.hash;
 const params = new URLSearchParams(location.search);
-if (appSections.has(hash) || hash.startsWith('#access_token=') || params.has('code') || params.get('mode') === 'masuk') {
+if (appSections.has(hash) || hash.startsWith('#access_token=') || params.has('code') || ['masuk', 'oauth', 'aktivasi', 'pemulihan'].includes(params.get('mode'))) {
   location.replace(app + location.search + hash);
 } else {
   createRoot(document.getElementById('root')).render(<Landing />);

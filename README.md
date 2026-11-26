@@ -11,18 +11,27 @@ npm test
 npm run build
 ```
 
-Impor repo ke Vercel sebagai proyek Vite dan pilih branch `tes` untuk membuat Preview Deployment. Build memakai Node.js 22 atau lebih baru dan menghasilkan folder `dist`. Mode demo langsung dapat dipakai tanpa konfigurasi. Data simulasi tersimpan per peramban di localStorage.
+Impor repo ke Vercel sebagai proyek Vite dan pilih branch yang ingin diuji untuk membuat Preview Deployment. Build memakai Node.js 22 atau lebih baru dan menghasilkan folder `dist`. Mode demo langsung dapat dipakai tanpa konfigurasi. Data simulasi tersimpan per peramban di localStorage.
 
-Pada branch `landing-page`, halaman publik tersedia di `/` dan dashboard di `/app/`. Pilih branch tersebut untuk meninjau landing page di Vercel. Maskot **Panduan** dapat diseret, membuka tautan ke bagian halaman, dan memulai tur otomatis yang berhenti saat pengunjung kembali menggulir.
+Halaman publik tersedia di `/` dan dashboard di `/app/`. Maskot **Panduan** dapat diseret, membuka tautan ke bagian halaman, dan memulai tur otomatis yang berhenti saat pengunjung kembali menggulir.
 
 ## Usaha dengan Supabase
 
 1. Jalankan [migrasi workspace](migrations/001_maviq_workspace.sql) pada Supabase SQL Editor. Migrasi menyiapkan tabel dan bucket privat dengan kebijakan akses per pemilik.
 2. Salin nama variabel dari [.env.example](.env.example) ke Vercel Project Settings → Environment Variables. Isi `VITE_SUPABASE_URL` dan `VITE_SUPABASE_PUBLISHABLE_KEY` untuk Auth. Isi `SUPABASE_URL` dan `SUPABASE_SECRET_KEY` untuk fungsi server. Aktifkan variabel pada cakupan Preview yang digunakan.
-3. Tambahkan URL deployment dan path `/app/` ke daftar redirect URL Supabase Auth, lalu deploy ulang. Masuk atau daftar dari menu akun di MAVIQ.
+3. Di Supabase Auth → URL Configuration, tetapkan Site URL dan tambahkan redirect `https://<host-aktif>/app/**` untuk setiap domain MAVIQ yang dipakai. Pola tersebut mencakup parameter callback di bawah `/app/`. Masuk atau daftar dari menu akun di MAVIQ.
 4. Isi nilai `VERYFI_CLIENT_ID`, `VERYFI_USERNAME`, dan `VERYFI_API_KEY` untuk OCR. Isi `GEMINI_API_KEY` untuk narasi briefing. Saat penyedia gagal atau belum dikonfigurasi, pembelian tetap dapat diisi manual dan briefing memakai ringkasan otomatis.
 
-Kredensial server harus disimpan sebagai secret Vercel. Variabel dengan awalan `VITE_` dikirim ke peramban pada waktu build.
+Simpan `SUPABASE_SECRET_KEY`, `VERYFI_*`, dan `GEMINI_API_KEY` di Environment Variables Vercel atau di environment lokal yang diabaikan Git. `.env.example` berfungsi sebagai daftar variabel tanpa kredensial. Hanya URL Supabase dan publishable key atau legacy anon key yang diperlukan di browser. Build menolak key dengan peran selain `anon` pada variabel publishable serta nama variabel privat yang keliru memakai awalan `VITE_`.
+
+### Login Google
+
+1. Di Google Cloud Console, siapkan layar persetujuan OAuth dan buat OAuth Client bertipe **Web application**. Jika aplikasi Google masih berstatus Testing, tambahkan email penguji.
+2. Isi **Authorized redirect URI** di Google dengan callback Supabase untuk proyek ini, biasanya `https://<project-ref>.supabase.co/auth/v1/callback`. Salin URL persisnya dari pengaturan provider Google di Supabase.
+3. Di Supabase Auth → Sign In / Providers → Google, aktifkan Google dan simpan Google Client ID serta Client Secret di sana. Aplikasi MAVIQ memakai Supabase sebagai perantara OAuth.
+4. Buka **Masuk → Lanjutkan dengan Google** pada domain MAVIQ yang tercantum di redirect allowlist Supabase. Untuk konfirmasi email atau reset kata sandi, buka tautan di peramban yang sama agar callback PKCE bisa diverifikasi.
+
+Kredensial Google Client Secret dikelola di Supabase. Endpoint usaha memeriksa token pengguna dan mengambil data berdasarkan pemilik. Demo tetap tersedia untuk pengunjung tanpa akun.
 
 Frontend Vite dapat dijalankan sendiri untuk demo. Gunakan `vercel dev` atau Preview Deployment saat menguji fungsi server. Penyimpanan MVP menggunakan satu snapshot PostgreSQL per pemilik dengan pembaruan bersyarat pada revisi yang sama. Server memvalidasi perintah dan menyimpan perubahan stok, kas, dan riwayat sebagai satu pembaruan atomik. Kiriman ulang menggunakan ID perintah. Unggahan struk disimpan di bucket privat per pemilik.
 

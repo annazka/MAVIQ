@@ -5,3 +5,9 @@ dist/
 !.env.example
 .taste-skill/
 __pycache__/
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+client_secret*.json
