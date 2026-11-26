@@ -11,7 +11,7 @@ npm test
 npm run build
 ```
 
-Impor repo ke Vercel sebagai proyek Vite dan pilih branch yang ingin diuji untuk membuat Preview Deployment. Build memakai Node.js 22 atau lebih baru dan menghasilkan folder `dist`. Mode demo langsung dapat dipakai tanpa konfigurasi. Data simulasi tersimpan per peramban di localStorage.
+Impor repo ke Vercel sebagai proyek Vite dan pilih branch yang ingin diuji untuk membuat Preview Deployment. Build memakai Node.js 22 atau lebih baru dan menghasilkan folder `dist`. Pengunjung bisa membaca halaman publik. Untuk menggunakan dashboard, masuk atau buat akun dengan Google atau email.
 
 Halaman publik tersedia di `/` dan dashboard di `/app/`. Maskot **Panduan** dapat diseret, membuka tautan ke bagian halaman, dan memulai tur otomatis yang berhenti saat pengunjung kembali menggulir.
 
@@ -31,15 +31,15 @@ Simpan `SUPABASE_SECRET_KEY`, `VERYFI_*`, dan `GEMINI_API_KEY` di Environment Va
 3. Di Supabase Auth → Sign In / Providers → Google, aktifkan Google dan simpan Google Client ID serta Client Secret di sana. Aplikasi MAVIQ memakai Supabase sebagai perantara OAuth.
 4. Buka **Masuk → Lanjutkan dengan Google** pada domain MAVIQ yang tercantum di redirect allowlist Supabase. Untuk konfirmasi email atau reset kata sandi, buka tautan di peramban yang sama agar callback PKCE bisa diverifikasi.
 
-Kredensial Google Client Secret dikelola di Supabase. Endpoint usaha memeriksa token pengguna dan mengambil data berdasarkan pemilik. Demo tetap tersedia untuk pengunjung tanpa akun.
+Kredensial Google Client Secret dikelola di Supabase. Endpoint usaha memeriksa token pengguna dan mengambil data berdasarkan pemilik. Pengunjung tanpa sesi diarahkan ke formulir masuk.
 
-Frontend Vite dapat dijalankan sendiri untuk demo. Gunakan `vercel dev` atau Preview Deployment saat menguji fungsi server. Penyimpanan MVP menggunakan satu snapshot PostgreSQL per pemilik dengan pembaruan bersyarat pada revisi yang sama. Server memvalidasi perintah dan menyimpan perubahan stok, kas, dan riwayat sebagai satu pembaruan atomik. Kiriman ulang menggunakan ID perintah. Unggahan struk disimpan di bucket privat per pemilik.
+Frontend Vite dapat dijalankan sendiri untuk meninjau halaman publik dan tampilan formulir. Gunakan `vercel dev` atau Preview Deployment saat menguji fungsi server. Penyimpanan MVP menggunakan satu snapshot PostgreSQL per pemilik dengan pembaruan bersyarat pada revisi yang sama. Server memvalidasi perintah dan menyimpan perubahan stok, kas, dan riwayat sebagai satu pembaruan atomik. Kiriman ulang menggunakan ID perintah. Unggahan struk disimpan di bucket privat per pemilik.
 
-Uji lokal mencakup pembanding finansial pada workflow. Konfigurasi Auth, OCR, dan Gemini perlu diuji dengan kredensial preview yang sebenarnya sebelum demonstrasi end-to-end. Ekspor berada di luar cakupan preview ini.
+Uji lokal mencakup pembanding finansial pada workflow. Konfigurasi Auth, OCR, dan Gemini perlu diuji dengan kredensial preview yang sebenarnya sebelum pengujian end-to-end. Ekspor berada di luar cakupan preview ini.
 
 ## Harga pasar harian
 
-Menu **Harga Pasar** mengambil harga referensi pasar tradisional dari [PIHPS Nasional Bank Indonesia](https://www.bi.go.id/hargapangan/TabelHarga/PasarTradisionalDaerah) melalui endpoint publik yang digunakan tabel PIHPS. Fitur ini berjalan di mode demo dan akun usaha, tanpa API key tambahan. Pilih data nasional atau provinsi yang tersedia di PIHPS dan tanggal hingga satu tahun terakhir.
+Menu **Harga Pasar** mengambil harga referensi pasar tradisional dari [PIHPS Nasional Bank Indonesia](https://www.bi.go.id/hargapangan/TabelHarga/PasarTradisionalDaerah) melalui endpoint publik yang digunakan tabel PIHPS. Ringkasan nasional tersedia di landing page dan filter lengkap tersedia setelah masuk. PIHPS dapat diakses tanpa API key tambahan. Pilih data nasional atau provinsi yang tersedia di PIHPS dan tanggal hingga satu tahun terakhir.
 
 Harga mencantumkan satuan, tanggal publikasi per komoditas, dan perubahan dari publikasi sebelumnya dalam delapan hari terakhir. Jika data belum terbit, aplikasi menampilkan publikasi terakhir yang tersedia pada rentang tersebut. Jika sumber sedang gagal, aplikasi dapat menampilkan salinan terakhir di peramban untuk wilayah dan tanggal yang sama. Harga referensi ditampilkan terpisah dari transaksi dan HPP MAVIQ.
 
@@ -47,4 +47,4 @@ Harga mencantumkan satuan, tanggal publikasi per komoditas, dan perubahan dari p
 
 Maskot 2D di kanan bawah menampilkan bubble setelah 15–45 detik tanpa interaksi, lalu memberi jeda acak 40–85 detik antar-bubble saat pengguna tetap idle. Bubble otomatis muncul selama sekitar 6,5 detik. Mengarahkan kursor ke maskot juga memicu animasi dan bubble, yang menghilang ketika kursor meninggalkan maskot. Bubble pertama memprioritaskan peringatan stok jika ada, lalu bergantian antara sapaan waktu WIB, pengingat transaksi jika hari masih kosong, dan tawaran bantuan. Panel dibuka lewat klik, ketukan, atau Enter.
 
-Di mode demo, pertanyaan stok, kas, penjualan, dan harga pasar dijawab dari data simulasi. Akun usaha memakai ringkasan milik pengguna dan Gemini untuk pertanyaan bebas melalui endpoint workspace. Chatbot dan briefing berbagi `GEMINI_API_KEY` dan `GEMINI_MODEL`. Percakapan berada di memori peramban selama halaman aktif. Chatbot hanya memberi informasi.
+Asisten memakai ringkasan milik pengguna dan Gemini untuk pertanyaan bebas melalui endpoint workspace. Chatbot dan briefing berbagi `GEMINI_API_KEY` dan `GEMINI_MODEL`. Percakapan berada di memori peramban selama halaman aktif. Chatbot hanya memberi informasi.

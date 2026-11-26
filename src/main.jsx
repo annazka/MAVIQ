@@ -1,38 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Bell, Boxes, ChevronDown, ChevronsUpDown, CircleAlert, CircleCheck, Coffee, House, LayoutDashboard, LogIn, LogOut, Menu, PanelLeft, ShoppingBasket, ShoppingCart, Store, Wallet, Wheat, X } from 'lucide-react';
+import { Bell, Boxes, ChevronDown, ChevronsUpDown, CircleAlert, CircleCheck, Coffee, House, LayoutDashboard, LogOut, Menu, PanelLeft, ShoppingBasket, ShoppingCart, Store, Wallet, Wheat, X } from 'lucide-react';
 import '@fontsource-variable/plus-jakarta-sans';
-import { applyCommand, emptyLedger } from '../lib/ledger.js';
-import { demoLedger } from '../lib/demo.js';
 import Dashboard from './Dashboard.jsx';
 import Chatbot from './Chatbot.jsx';
 import Pages from './Pages.jsx';
 import MarketPrices from './MarketPrices.jsx';
 import Modal from './forms.jsx';
 import Account, { Brand } from './Account.jsx';
-import { isAccountEntry, rememberRecovery, restoreAccount, supabase } from './supabase.js';
+import { rememberRecovery, restoreAccount, supabase } from './supabase.js';
 import { Button } from './ui.jsx';
 import './style.css';
 
-const key = 'maviq-demo-ledger-v1';
 const bucket = 'maviq-private-receipts';
 const links = [
   ['dashboard', 'Dashboard', LayoutDashboard], ['sales', 'Penjualan', ShoppingCart], ['purchases', 'Pembelian', ShoppingBasket],
   ['stock', 'Bahan & Stok', Boxes], ['products', 'Produk & Resep', Coffee], ['cash', 'Keuangan', Wallet], ['market', 'Harga Pasar', Wheat]
 ];
 const currentPage = () => links.find(([path]) => '#' + path === location.hash)?.[0] || 'dashboard';
-const readDemo = () => {
-  try {
-    const saved = localStorage.getItem(key);
-    if (saved) return JSON.parse(saved);
-  } catch {}
-  return { ledger: demoLedger(), revision: 0 };
-};
-const storeDemo = state => {
-  localStorage.setItem(key, JSON.stringify(state));
-  return state;
-};
-
 async function workspace(session, body) {
   const response = await fetch('/api/workspace', {
     method: body ? 'POST' : 'GET',
@@ -46,10 +31,9 @@ async function workspace(session, body) {
 
 function App() {
   const [page, setPage] = useState(currentPage);
-  const [demo, setDemo] = useState(readDemo);
   const [auth, setAuth] = useState({ ready: !supabase, session: null, recovery: false, error: '' });
   const [workspaceState, setWorkspaceState] = useState(null);
-  const [entry, setEntry] = useState(() => isAccountEntry() ? 'login' : null);
+  const [entry, setEntry] = useState(() => new URLSearchParams(location.search).get('mode') === 'daftar' ? 'signup' : 'login');
   const { session, recovery } = auth;
   const ownerId = session?.user.id;
   const currentWorkspace = workspaceState?.ownerId === ownerId ? workspaceState : null;
@@ -116,12 +100,9 @@ function App() {
   }, [ownerId, recovery]);
   useEffect(() => {
     const onHash = () => { setPage(currentPage()); setDrawer(false); setPopover(''); window.scrollTo(0, 0); };
-    const onStorage = event => { if (event.key === key) setDemo(readDemo()); };
     window.addEventListener('hashchange', onHash);
-    window.addEventListener('storage', onStorage);
     return () => {
       window.removeEventListener('hashchange', onHash);
-      window.removeEventListener('storage', onStorage);
       clearTimeout(toastTimer.current);
     };
   }, []);
@@ -132,8 +113,7 @@ function App() {
     return () => window.removeEventListener('keydown', onKey);
   }, [drawer]);
 
-  const state = session ? real : demo;
-  const ledger = state?.ledger;
+  const ledger = real?.ledger;
   const go = next => {
     if (page !== next) location.hash = next;
     setPage(next); setDrawer(false); setPopover(''); window.scrollTo(0, 0);
@@ -149,19 +129,10 @@ function App() {
     committing.current = true;
     setBusy(true);
     try {
-      if (session) {
-        const next = await workspace(session, { action: 'commit', command, revision: state.revision });
-        setReal(next);
-      } else {
-        const save = () => {
-          const base = readDemo();
-          const next = applyCommand(base.ledger, command);
-          return storeDemo({ ledger: next, revision: base.revision + 1 });
-        };
-        setDemo(navigator.locks ? await navigator.locks.request(key, save) : save());
-      }
+      const next = await workspace(session, { action: 'commit', command, revision: real.revision });
+      setReal(next);
     } catch (error) {
-      if (error.current && session) setReal(error.current);
+      if (error.current) setReal(error.current);
       throw error;
     } finally {
       committing.current = false;
@@ -175,16 +146,11 @@ function App() {
       return;
     }
     rememberRecovery(null);
-    setEntry(null);
-    setPopover('');
+    switchAuthView('login');
     go('dashboard');
   };
   const receiptTools = {
     upload: async file => {
-      if (!session) {
-        const digest = await crypto.subtle.digest('SHA-256', await file.arrayBuffer());
-        return { hash: Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('') };
-      }
       const path = session.user.id + '/' + crypto.randomUUID() + (file.type === 'image/png' ? '.png' : '.jpg');
       const { error } = await supabase.storage.from(bucket).upload(path, file);
       if (error) throw error;
@@ -206,22 +172,24 @@ function App() {
   const switchAuthView = mode => {
     setAuth(current => ({ ...current, error: '' }));
     setEntry(mode);
-    if (mode === null && location.search) history.replaceState(history.state, '', location.pathname + location.hash);
+    if (mode === 'login' || mode === 'signup') {
+      const query = mode === 'signup' ? '?mode=daftar' : '?mode=masuk';
+      history.replaceState(history.state, '', location.pathname + query + location.hash);
+    }
   };
   if (!auth.ready) return <main className="entry-page"><section className="panel entry-card"><Brand /><h1>Memeriksa sesi</h1><p role="status">Menyiapkan ruang kerja MAVIQ…</p></section></main>;
   if (recovery && session) return <>
     <Account key="recovery" mode="recovery" leave={signOut} recovered={() => {
       rememberRecovery(null);
       setAuth(current => ({ ...current, recovery: false }));
-      setEntry(null);
+      setEntry('login');
       notify('Kata sandi berhasil diperbarui.');
     }} />{status}
   </>;
-  if (entry && !session) return <><Account key={entry} mode={entry} initialError={auth.error}
-    onView={switchAuthView} leave={() => switchAuthView(null)} />{status}</>;
-  if (session && !ledger) {
+  if (!session) return <><Account key={entry} mode={entry} initialError={auth.error} onView={switchAuthView} />{status}</>;
+  if (!ledger) {
     if (real === null) return <><Account mode="setup" setup={async fields => setReal(await workspace(session, { action: 'setup', ...fields }))} leave={signOut} />{status}</>;
-    return <main className="entry-page"><section className="panel entry-card"><Brand /><h1>{loadError ? 'Data belum terbuka' : 'Memuat usaha'}</h1><p role="status">{loadError || 'Mengambil data usaha Anda…'}</p>{loadError && <div className="entry-actions"><Button onClick={refresh}>Coba lagi</Button><Button onClick={signOut}>Kembali ke demo</Button></div>}</section>{status}</main>;
+    return <main className="entry-page"><section className="panel entry-card"><Brand /><h1>{loadError ? 'Data belum terbuka' : 'Memuat usaha'}</h1><p role="status">{loadError || 'Mengambil data usaha Anda…'}</p>{loadError && <div className="entry-actions"><Button onClick={refresh}>Coba lagi</Button><Button onClick={signOut}>Keluar</Button></div>}</section>{status}</main>;
   }
   const low = ledger.ingredients.filter(item => Number(item.quantity) <= Number(item.minimum));
   const initials = ledger.name.trim().split(/\s+/).slice(0, 2).map(word => word[0]).join('').toUpperCase();
@@ -231,17 +199,17 @@ function App() {
     <aside id="sidebar" className={'sidebar ' + (drawer ? 'drawer-open' : '')}>
       <a className="brand-link" href="#dashboard" onClick={() => go('dashboard')} aria-label="MAVIQ Dashboard"><Brand /></a>
       <button className="workspace-card" aria-expanded={popover === 'workspace'} onClick={() => setPopover(popover === 'workspace' ? '' : 'workspace')}>
-        <span className="tile mint"><Store size={18} /></span><span className="workspace-copy"><strong>{ledger.name}</strong><small>{session ? 'Ruang kerja usaha' : 'Ruang kerja demo'}</small></span><ChevronsUpDown size={15} />
+        <span className="tile mint"><Store size={18} /></span><span className="workspace-copy"><strong>{ledger.name}</strong><small>Ruang kerja usaha</small></span><ChevronsUpDown size={15} />
       </button>
-      {popover === 'workspace' && <div className="workspace-popover"><p>{session ? 'Satu usaha terhubung ke akun Anda.' : 'Data simulasi disimpan di peramban ini.'}</p>
-        <Button icon={session ? LogOut : LogIn} onClick={session ? signOut : () => { setEntry('login'); setDrawer(false); setPopover(''); }}>{session ? 'Keluar' : 'Masuk ke MAVIQ'}</Button></div>}
+      {popover === 'workspace' && <div className="workspace-popover"><p>Satu usaha terhubung ke akun Anda.</p>
+        <Button icon={LogOut} onClick={signOut}>Keluar</Button></div>}
       <p className="nav-section">Ruang kerja</p>
       <nav aria-label="Navigasi utama">{links.map(([id, label, Icon]) => <a href={'#' + id} key={id} onClick={() => go(id)} aria-current={id === page ? 'page' : undefined}>
         <Icon size={19} /><span>{label}</span>{page === id && <i />}
       </a>)}</nav>
-      <div className="sidebar-bottom">{!session && <div className="demo-banner"><span className="demo-indicator" /><div><strong>Mode demo</strong><small>Data simulasi</small></div></div>}
-        <button className="profile" onClick={() => { if (session) void signOut(); else { setEntry('login'); setDrawer(false); } }}>
-          <span className="avatar">{initials}</span><span><strong>{session ? 'Pemilik usaha' : 'Akun demo'}</strong><small>{session ? 'Keluar dari akun' : 'Masuk ke MAVIQ'}</small></span>{session ? <LogOut size={17} /> : <LogIn size={17} />}
+      <div className="sidebar-bottom">
+        <button className="profile" onClick={signOut}>
+          <span className="avatar">{initials}</span><span><strong>Pemilik usaha</strong><small>Keluar dari akun</small></span><LogOut size={17} />
         </button></div>
     </aside>
     <div className="app-main">
@@ -249,19 +217,19 @@ function App() {
         <button className="mobile-menu" aria-label="Buka menu" aria-expanded={drawer} aria-controls="sidebar" onClick={() => setDrawer(true)}><Menu size={21} /><span>Menu</span></button>
         <span className="top-rail"><PanelLeft size={17} /></span><button className="breadcrumb-home" onClick={() => go('dashboard')} aria-label="Ke dashboard"><House size={17} /></button>
         <span className="slash">/</span><strong>{links.find(([id]) => id === page)[1]}</strong></div>
-        <div className="top-right">{!session && <span className="demo-chip"><i />Data simulasi</span>}
+        <div className="top-right">
           <button className="bell" aria-label="Pemberitahuan stok" aria-expanded={popover === 'alerts'} onClick={() => setPopover(popover === 'alerts' ? '' : 'alerts')}><Bell size={19} />{low.length > 0 && <i />}</button>
-          <button className="top-profile" aria-label={session ? 'Keluar dari akun' : 'Masuk ke MAVIQ'} onClick={session ? signOut : () => setEntry('login')}><span className="avatar">{initials}</span><ChevronDown size={14} /></button>
+          <button className="top-profile" aria-label="Keluar dari akun" onClick={signOut}><span className="avatar">{initials}</span><ChevronDown size={14} /></button>
           {popover === 'alerts' && <div className="panel alerts"><strong>Pemberitahuan stok</strong><p>{low.length ? low.length + ' bahan berada pada atau di bawah batas minimum.' : 'Stok berada dalam batas aman.'}</p><Button onClick={() => go('stock')}>Buka persediaan</Button></div>}
         </div>
       </header>
       <main id="main-content" className="main-content">
-        {page === 'dashboard' ? <Dashboard ledger={ledger} demo={!session} go={go} open={open} commit={commit} busy={busy} notify={notify} /> :
+        {page === 'dashboard' ? <Dashboard ledger={ledger} go={go} open={open} commit={commit} busy={busy} notify={notify} /> :
           page === 'market' ? <MarketPrices /> : <Pages key={page} page={page} ledger={ledger} open={open} />}
       </main>
     </div>
     {modal && <Modal key={modal.key} modal={modal} ledger={ledger} close={() => setModal(null)} open={open} commit={commit} notify={notify} receiptTools={receiptTools} />}
-    <Chatbot key={session?.user?.id || 'demo'} ledger={ledger} demo={!session} go={go} blocked={Boolean(modal || drawer)}
+    <Chatbot key={ownerId} ledger={ledger} go={go} blocked={Boolean(modal || drawer)}
       ask={(question, previous) => workspace(session, { action: 'chat', question, previous })} />
     {status}
   </div>;

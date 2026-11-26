@@ -78,7 +78,7 @@ export default function Account({ mode, onView, leave, setup, recovered, initial
 
   return <main className="entry-page"><section className="panel entry-card">
     <Brand /><h1>{title}</h1><p>{description}</p>
-    {!supabase ? <p className="form-warning"><CircleAlert size={17} />Akun usaha tersedia setelah Supabase dikonfigurasi. Anda bisa mencoba data simulasi.</p> : <>
+    {!supabase ? <p className="form-warning"><CircleAlert size={17} />Layanan akun belum terhubung. Silakan coba lagi nanti.</p> : <>
       {isSignIn && <div className="entry-google"><Button className="google-button" onClick={google} disabled={Boolean(pending)}>
         <GoogleMark />{pending === 'google' ? 'Menghubungkan ke Google…' : 'Lanjutkan dengan Google'}
       </Button><span>atau gunakan email</span></div>}
@@ -102,7 +102,7 @@ export default function Account({ mode, onView, leave, setup, recovered, initial
       {supabase && mode === 'login' && <button type="button" className="text-button" onClick={() => onView('forgot')}>Lupa kata sandi?</button>}
       {supabase && isSignIn && <button type="button" className="text-button" onClick={() => onView(mode === 'login' ? 'signup' : 'login')}>{mode === 'login' ? 'Daftar akun' : 'Sudah punya akun? Masuk'}</button>}
       {supabase && mode === 'forgot' && <button type="button" className="text-button" onClick={() => onView('login')}>Kembali ke masuk</button>}
-      <button type="button" className="text-button" onClick={leave}>{mode === 'setup' || mode === 'recovery' ? 'Keluar' : 'Kembali ke demo'}</button>
+      {leave ? <button type="button" className="text-button" onClick={leave}>Keluar</button> : <a className="text-button" href="/">Kembali ke beranda</a>}
     </div>
   </section></main>;
 }

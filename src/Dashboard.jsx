@@ -67,7 +67,7 @@ function SalesChart({ points }) {
   </>;
 }
 
-export default function Dashboard({ ledger, demo, go, open, commit, busy, notify }) {
+export default function Dashboard({ ledger, go, open, commit, busy, notify }) {
   const today = jakartaDay();
   const [day, setDay] = useState(today);
   const [period, setPeriod] = useState('6');
@@ -124,7 +124,7 @@ export default function Dashboard({ ledger, demo, go, open, commit, busy, notify
         <dl className="briefing-metrics"><div><dt>Penjualan bersih</dt><dd>{money(displayed.sales)}</dd></div>
           <div><dt>Estimasi laba kotor</dt><dd>{money(displayed.gross)}</dd></div></dl>
         <div className="briefing-note"><AlertCircle size={18} /><div><strong>{points[0].title}</strong><p>{points[0].detail}</p></div></div>
-        <div className="briefing-bottom"><span>{briefing ? <><Clock3 size={13} /> {clock(briefing.at)} · {briefing.source}</> : demo ? 'Ringkasan data simulasi' : 'Belum dibuat'}</span>
+        <div className="briefing-bottom"><span>{briefing ? <><Clock3 size={13} /> {clock(briefing.at)} · {briefing.source}</> : 'Belum dibuat'}</span>
           <button type="button" className="text-button" disabled={busy} onClick={generate}>{briefing ? 'Perbarui' : 'Buat briefing'} <ArrowRight size={15} /></button></div>
       </section>
     </div>

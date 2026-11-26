@@ -110,13 +110,9 @@ export default function Modal({ modal, ledger, close, open, commit, notify, rece
       pendingReceipt.current = uploaded.path;
       setReceipt(uploaded);
       setAttached(picked.name);
-      if (uploaded.path) {
-        const output = await receiptTools.scan(uploaded.path);
-        assignScan(output);
-        setResult('Periksa hasil OCR, lalu pilih bahan dan isi ukuran kemasan sebelum konfirmasi.');
-      } else {
-        setPhotoError('Scan OCR tersedia setelah masuk ke usaha yang terhubung. Isi rincian secara manual untuk melanjutkan simulasi.');
-      }
+      const output = await receiptTools.scan(uploaded.path);
+      assignScan(output);
+      setResult('Periksa hasil OCR, lalu pilih bahan dan isi ukuran kemasan sebelum konfirmasi.');
     } catch (scanError) {
       setPhotoError(scanError.message || 'Struk gagal dibaca. Coba lagi atau isi manual.');
     } finally { setScanning(false); }
@@ -136,7 +132,6 @@ export default function Modal({ modal, ledger, close, open, commit, notify, rece
       if (kind === 'purchase') {
         fields.items = lines.map(({ ingredientId, packs, size, price, discount }) => ({ ingredientId, packs, size, price, discount }));
         fields.receiptPath = receipt?.path;
-        fields.receiptHash = receipt?.hash;
         fields.acceptDuplicate = lineage;
       }
       if (kind === 'reversal') {
