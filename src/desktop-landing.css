@@ -52,7 +52,7 @@
   width: min(100%, 510px);
   margin-inline: auto;
 }
-.desktop-mascot {
+.desktop-hero-logo {
   width: clamp(125px, 14vw, 190px);
   height: auto;
   margin-bottom: -14px;
@@ -334,7 +334,7 @@
   .desktop-intro {
     animation: slide-in 0.62s ease-out both;
   }
-  .desktop-mascot {
+  .desktop-hero-logo {
     animation: workbench-greet 0.72s 0.15s ease-out both;
   }
   .desktop-shortcut {
@@ -401,14 +401,10 @@
     gap: 4px;
     font-size: 20px;
   }
-  .desktop-landing .mast .wordmark img {
-    width: 37px;
-    height: 37px;
-  }
   .desktop-landing .mast .controls {
     gap: 8px;
   }
-  .desktop-mascot {
+  .desktop-hero-logo {
     width: 134px;
   }
   .desktop-intro h1 {

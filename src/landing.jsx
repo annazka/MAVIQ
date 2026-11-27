@@ -222,7 +222,6 @@ function Landing() {
           href="#beranda"
           aria-label={'MAVIQ · ' + t.home}
         >
-          <img src="/maviq.svg" width="46" height="46" alt="" />
           MAVIQ
         </a>
         <nav aria-label={t.nav}>

@@ -35,10 +35,10 @@ export default function DesktopHero({ lang, copy, signup, onOpenDemo, recorded }
       <div className="desktop-stage">
         <div className="desktop-intro">
           <img
-            className="desktop-mascot"
-            src="/maviq-maskot-hd.webp"
-            width="1260"
-            height="1236"
+            className="desktop-hero-logo"
+            src="/maviq.svg"
+            width="324"
+            height="324"
             fetchPriority="high"
             alt=""
           />
