@@ -14,6 +14,7 @@ import '@fontsource/instrument-serif/400-italic.css';
 import './landing.css';
 import './mascot.css';
 import LandingGuide from './LandingGuide.jsx';
+import { BusinessSections } from './business-sections.jsx';
 import { MarketSection } from './landing-sections.jsx';
 
 const app = '/app/',
@@ -31,22 +32,22 @@ const appSections = new Set([
 ]);
 const texts = {
   en: {
-    title: 'MAVIQ — Your café companion',
-    intro: 'Meet your café',
-    accent: 'companion.',
-    lead: 'I’m MAVIQ. Show me a receipt or record a sale, and I’ll help you keep track of stock, costs and cash throughout your shift.',
+    title: 'MAVIQ — Small Business, Smarter Decisions.',
+    intro: 'Small Business,',
+    accent: 'Smarter Decisions.',
+    lead: 'I’m MAVIQ, your AI-powered platform for running a small business in Indonesia. Manage records, stock, market prices, production costs and cash, then decide what to do next.',
     features: 'Features',
     flow: 'How it works',
     market: 'Market prices',
     login: 'Sign in',
     signup: 'Get started',
-    tour: 'Meet MAVIQ',
+    tour: 'Explore MAVIQ',
     skip: 'Skip to content',
     home: 'Home',
     hello: 'Hey, I’m MAVIQ!',
-    note: 'From your café counter',
-    shift: 'One shift, together.',
-    examples: 'Choose a moment from a sample shift.',
+    note: 'For Indonesian MSMEs',
+    shift: 'From receipts to decisions.',
+    examples: 'Follow a sample day at a food business.',
     steps: [
       [
         'Morning delivery',
@@ -56,7 +57,7 @@ const texts = {
       [
         'First order',
         'Record a sale',
-        'Choose a drink and quantity. Its recipe determines the ingredients used and the estimated cost per serving.',
+        'Choose a product and quantity. Its recipe determines the ingredients used and the estimated cost per serving.',
       ],
       [
         'Closing time',
@@ -65,22 +66,22 @@ const texts = {
       ],
     ],
     ask: 'Ask your companion.',
-    sample: 'Sample conversation · Nusa Café',
+    sample: 'Sample conversation · Nusa Bakery',
     questions: [
       [
         'What’s running low?',
-        'You have 324 g of arabica beans left. Check your stock before the next rush.',
+        'You have 1.2 kg of flour left. Check your stock before the next rush.',
       ],
       [
         'How much cash is there?',
-        'The café’s cash balance is Rp5,244,000. Open Finance to see the money coming in and going out.',
+        'The bakery’s cash balance is Rp5,244,000. Open Finance to see the money coming in and going out.',
       ],
     ],
-    faq: 'Before your first shift',
+    faq: 'Before you get started',
     faqs: [
       [
         'How do I get started?',
-        'Sign up with Google or email, then enter your café name and opening balance.',
+        'Sign up with Google or email, then enter your business name and opening balance.',
       ],
       [
         'Can I correct a scanned receipt?',
@@ -91,16 +92,16 @@ const texts = {
         'You confirm and cancel transactions in your dashboard. The assistant helps you read the results.',
       ],
     ],
-    close: 'Ready for your next shift?',
-    alt: 'MAVIQ, the café’s robot companion',
-    scene: 'Open your café workspace',
+    close: 'Ready to run your business with MAVIQ?',
+    alt: 'MAVIQ, the robot that guides you through the platform',
+    scene: 'Open your business workspace',
     nav: 'Main navigation',
   },
   id: {
-    title: 'MAVIQ — Teman jaga kedaimu',
-    intro: 'Kenalkan, teman',
-    accent: 'jaga kedaimu.',
-    lead: 'Aku MAVIQ. Tunjukkan struk belanja atau catat pesanan, lalu kita cek stok, biaya, dan kas selama kedai buka.',
+    title: 'MAVIQ — Bantu UMKM ambil keputusan',
+    intro: 'Usaha Kecil,',
+    accent: 'Keputusan Lebih Cerdas.',
+    lead: 'Aku MAVIQ, platform berbasis AI untuk UMKM Indonesia. Kelola catatan, stok, harga pasar, HPP, dan kas, lalu tentukan langkah berikutnya.',
     features: 'Fitur',
     flow: 'Cara kerja',
     market: 'Harga pasar',
@@ -110,9 +111,9 @@ const texts = {
     skip: 'Langsung ke konten',
     home: 'Beranda',
     hello: 'Halo, aku MAVIQ!',
-    note: 'Dari meja kasir',
-    shift: 'Seharian di kedai.',
-    examples: 'Pilih momen dari contoh aktivitas kedai.',
+    note: 'Untuk UMKM Indonesia',
+    shift: 'Dari struk ke keputusan.',
+    examples: 'Ikuti contoh kegiatan harian usaha kuliner.',
     steps: [
       [
         'Belanja pagi',
@@ -122,7 +123,7 @@ const texts = {
       [
         'Pesanan pertama',
         'Catat penjualan',
-        'Pilih minuman dan jumlah pesanan. Resep menentukan bahan yang terpakai dan estimasi biaya per porsi.',
+        'Pilih produk dan jumlah pesanan. Resep menentukan bahan yang terpakai dan estimasi biaya per porsi.',
       ],
       [
         'Menjelang tutup',
@@ -130,23 +131,23 @@ const texts = {
         'Lihat penjualan, estimasi laba kotor, dan saldo kas, lalu cek bahan yang mulai menipis.',
       ],
     ],
-    ask: 'Tanya teman kedaimu.',
-    sample: 'Contoh percakapan · Kedai Nusa',
+    ask: 'Tanya asisten usahamu.',
+    sample: 'Contoh percakapan · Toko Roti Nusa',
     questions: [
       [
         'Stok apa yang menipis?',
-        'Biji kopi Arabika tersisa 324 g. Cek stok sebelum jam ramai berikutnya.',
+        'Tepung terigu tersisa 1,2 kg. Cek stok sebelum jam ramai berikutnya.',
       ],
       [
         'Berapa saldo kas?',
-        'Saldo kas kedai Rp5.244.000. Buka Keuangan untuk melihat rincian kas masuk dan keluar.',
+        'Saldo kas toko roti Rp5.244.000. Buka Keuangan untuk melihat rincian kas masuk dan keluar.',
       ],
     ],
-    faq: 'Sebelum mulai jaga',
+    faq: 'Sebelum mulai',
     faqs: [
       [
         'Bagaimana cara memulai?',
-        'Daftar dengan Google atau email, lalu masukkan nama kedai dan saldo awal.',
+        'Daftar dengan Google atau email, lalu masukkan nama usaha dan saldo awal.',
       ],
       [
         'Bisa koreksi hasil scan struk?',
@@ -157,9 +158,9 @@ const texts = {
         'Kamu mengonfirmasi dan membatalkan transaksi lewat dashboard. Asisten membantu membaca hasilnya.',
       ],
     ],
-    close: 'Siap jaga kedai berikutnya?',
-    alt: 'MAVIQ, robot pendamping kedai',
-    scene: 'Buka ruang kerja kedaimu',
+    close: 'Siap kelola usaha dengan MAVIQ?',
+    alt: 'MAVIQ, robot pemandu platform',
+    scene: 'Buka ruang kerja usahamu',
     nav: 'Navigasi utama',
   },
 };
@@ -187,6 +188,24 @@ function Landing() {
       localStorage.setItem('maviq.landing.language', lang);
     } catch {}
   }, [lang, t]);
+  useEffect(() => {
+    if (!('IntersectionObserver' in window)) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries
+          .filter(({ isIntersecting }) => isIntersecting)
+          .forEach(({ target }) => {
+            target.classList.add('revealed');
+            observer.unobserve(target);
+          });
+      },
+      { threshold: 0.15 },
+    );
+    document
+      .querySelectorAll('[data-reveal]')
+      .forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
   const cta = (
     <a className="go" href={signUp}>
       {t.signup}
@@ -208,7 +227,7 @@ function Landing() {
           MAVIQ
         </a>
         <nav aria-label={t.nav}>
-          <a href="#fitur">{t.features}</a>
+          <a href="#kapabilitas">{t.features}</a>
           <a href="#harga-pasar">{t.market}</a>
           <a href="#faq">FAQ</a>
         </nav>
@@ -230,6 +249,7 @@ function Landing() {
       <main id="konten">
         <section className="poster" id="ringkasan">
           <div className="pitch">
+            <span className="hero-scope">{t.note}</span>
             <h1>
               {t.intro}
               <br />
@@ -238,7 +258,7 @@ function Landing() {
             <p>{t.lead}</p>
             <div className="cta-row">
               {cta}
-              <a href="#asisten">
+              <a href="#tentang">
                 {t.tour} <ArrowDown size={16} />
               </a>
             </div>
@@ -246,15 +266,18 @@ function Landing() {
           <figure className="robot-stage">
             <span className="speech">{t.hello}</span>
             <img
-              src={mascot}
-              width="420"
-              height="412"
+              src="/maviq-maskot-hd.webp"
+              srcSet="/maviq-maskot.webp 420w, /maviq-maskot-hd.webp 1260w"
+              sizes="(max-width: 760px) 320px, 480px"
+              width="1260"
+              height="1236"
               fetchPriority="high"
               alt={t.alt}
             />
           </figure>
         </section>
-        <section className="shift frame" id="fitur">
+        <BusinessSections lang={lang} />
+        <section data-reveal className="shift frame" id="fitur">
           <div>
             <h2 tabIndex="-1">{t.shift}</h2>
             <p>{t.examples}</p>
@@ -276,14 +299,16 @@ function Landing() {
                 );
               })}
             </div>
-            <article aria-live="polite">
-              <Symbol size={27} />
-              <h3>{t.steps[step][1]}</h3>
-              <p>{t.steps[step][2]}</p>
-            </article>
+            <div aria-live="polite">
+              <article className="panel-change" key={step}>
+                <Symbol size={27} />
+                <h3>{t.steps[step][1]}</h3>
+                <p>{t.steps[step][2]}</p>
+              </article>
+            </div>
           </div>
         </section>
-        <section className="conversation frame" id="asisten">
+        <section data-reveal className="conversation frame" id="asisten">
           <div>
             <h2 tabIndex="-1">{t.ask}</h2>
             <p>{t.sample}</p>
@@ -301,13 +326,15 @@ function Landing() {
                 </button>
               ))}
             </div>
-            <blockquote aria-live="polite">
-              {t.questions[question][1]}
-            </blockquote>
+            <div aria-live="polite">
+              <blockquote className="panel-change" key={question}>
+                {t.questions[question][1]}
+              </blockquote>
+            </div>
           </div>
         </section>
         <MarketSection app={app} en={en} />
-        <section className="frame qna" id="faq">
+        <section data-reveal className="frame qna" id="faq">
           <h2 tabIndex="-1">{t.faq}</h2>
           <div>
             {t.faqs.map(([q, a], i) => (

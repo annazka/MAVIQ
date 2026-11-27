@@ -1,6 +1,6 @@
 # MAVIQ
 
-Aplikasi operasional untuk UMKM kuliner. Dashboard menyatukan pencatatan pembelian, stok bahan, resep, penjualan, estimasi HPP, dan arus kas dalam rupiah. Periode laporan menggunakan Asia/Jakarta.
+MAVIQ (Merchant Analytics & Venture Intelligence Quotient) adalah platform pengelolaan bisnis dan pendukung keputusan berbasis AI untuk UMKM Indonesia, dengan fokus awal pada sektor kuliner. Dashboard menyatukan pencatatan pembelian, stok bahan, resep, penjualan, estimasi HPP, dan arus kas dalam rupiah. Periode laporan menggunakan Asia/Jakarta.
 
 ## Preview dan pengembangan
 

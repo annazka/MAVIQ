@@ -41,7 +41,7 @@ export function MarketSection({ app, en }) {
     return () => controller.abort();
   }, [visible]);
   return (
-    <section ref={section} id="harga-pasar" className="land-screen land-market">
+    <section ref={section} data-reveal id="harga-pasar" className="land-screen land-market">
       <div className="land-wrap land-split">
         <div className="land-section-copy">
           <span className="land-eyebrow">
