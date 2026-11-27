@@ -13,7 +13,9 @@ import '@fontsource-variable/plus-jakarta-sans';
 import '@fontsource/instrument-serif/400-italic.css';
 import './landing.css';
 import './mascot.css';
+import './workbench.css';
 import LandingGuide from './LandingGuide.jsx';
+import WorkbenchPreview from './WorkbenchPreview.jsx';
 import { BusinessSections } from './business-sections.jsx';
 import { MarketSection } from './landing-sections.jsx';
 
@@ -41,10 +43,9 @@ const texts = {
     market: 'Market prices',
     login: 'Sign in',
     signup: 'Get started',
-    tour: 'Explore MAVIQ',
+    tour: 'Try the demo',
     skip: 'Skip to content',
     home: 'Home',
-    hello: 'Hey, I’m MAVIQ!',
     note: 'For Indonesian MSMEs',
     shift: 'From receipts to decisions.',
     examples: 'Follow a sample day at a food business.',
@@ -93,8 +94,6 @@ const texts = {
       ],
     ],
     close: 'Ready to run your business with MAVIQ?',
-    alt: 'MAVIQ, the robot that guides you through the platform',
-    scene: 'Open your business workspace',
     nav: 'Main navigation',
   },
   id: {
@@ -107,10 +106,9 @@ const texts = {
     market: 'Harga pasar',
     login: 'Masuk',
     signup: 'Mulai sekarang',
-    tour: 'Kenali MAVIQ',
+    tour: 'Coba demo',
     skip: 'Langsung ke konten',
     home: 'Beranda',
-    hello: 'Halo, aku MAVIQ!',
     note: 'Untuk UMKM Indonesia',
     shift: 'Dari struk ke keputusan.',
     examples: 'Ikuti contoh kegiatan harian usaha kuliner.',
@@ -159,8 +157,6 @@ const texts = {
       ],
     ],
     close: 'Siap kelola usaha dengan MAVIQ?',
-    alt: 'MAVIQ, robot pemandu platform',
-    scene: 'Buka ruang kerja usahamu',
     nav: 'Navigasi utama',
   },
 };
@@ -223,10 +219,11 @@ function Landing() {
           href="#beranda"
           aria-label={'MAVIQ · ' + t.home}
         >
-          <img src="/maviq.svg" width="32" height="32" alt="" />
+          <img src="/maviq.svg" width="46" height="46" alt="" />
           MAVIQ
         </a>
         <nav aria-label={t.nav}>
+          <a href="#demo-ruang-kerja">{t.tour}</a>
           <a href="#kapabilitas">{t.features}</a>
           <a href="#harga-pasar">{t.market}</a>
           <a href="#faq">FAQ</a>
@@ -247,7 +244,7 @@ function Landing() {
         </div>
       </header>
       <main id="konten">
-        <section className="poster" id="ringkasan">
+        <section className="poster workbench-hero" id="ringkasan">
           <div className="pitch">
             <span className="hero-scope">{t.note}</span>
             <h1>
@@ -258,23 +255,12 @@ function Landing() {
             <p>{t.lead}</p>
             <div className="cta-row">
               {cta}
-              <a href="#tentang">
+              <a href="#demo-ruang-kerja">
                 {t.tour} <ArrowDown size={16} />
               </a>
             </div>
           </div>
-          <figure className="robot-stage">
-            <span className="speech">{t.hello}</span>
-            <img
-              src="/maviq-maskot-hd.webp"
-              srcSet="/maviq-maskot.webp 420w, /maviq-maskot-hd.webp 1260w"
-              sizes="(max-width: 760px) 320px, 480px"
-              width="1260"
-              height="1236"
-              fetchPriority="high"
-              alt={t.alt}
-            />
-          </figure>
+          <WorkbenchPreview lang={lang} />
         </section>
         <BusinessSections lang={lang} />
         <section data-reveal className="shift frame" id="fitur">

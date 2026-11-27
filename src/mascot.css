@@ -118,41 +118,6 @@ html {
 .go:hover {
   background: #096352;
 }
-.robot-stage {
-  position: relative;
-  isolation: isolate;
-  display: grid;
-  place-items: center;
-  aspect-ratio: 1;
-}
-.robot-stage:before {
-  content: '';
-  position: absolute;
-  inset: 9% 3% 6%;
-  z-index: -1;
-  background: #fff2b9;
-  border-radius: 48% 52% 46% 54% / 56% 38% 62% 44%;
-  transform: rotate(-10deg);
-}
-.robot-stage img {
-  width: 94%;
-  height: auto;
-  filter: drop-shadow(0 17px 10px #22584026);
-  transform: rotate(4deg);
-}
-.speech {
-  position: absolute;
-  top: 1%;
-  left: 1%;
-  z-index: 1;
-  background: #fffef8;
-  border: 1.5px solid #234d40;
-  border-radius: 22px 22px 5px 22px;
-  box-shadow: 3px 4px 0 #234d40;
-  padding: 8px 17px;
-  font-weight: 750;
-  transform: rotate(-6deg);
-}
 .frame {
   padding: clamp(54px, 7vw, 100px) clamp(2px, 3vw, 46px);
 }
@@ -299,11 +264,6 @@ html {
   .pitch p {
     margin: 14px 0 17px;
   }
-  .robot-stage {
-    width: min(100%, 320px);
-    justify-self: center;
-    margin-top: 10px;
-  }
   .shift-grid,
   .conversation,
   .qna {
@@ -436,15 +396,6 @@ html {
   .pitch {
     animation: slide-in 0.65s ease-out both;
   }
-  .robot-stage {
-    animation: slide-in 0.8s 0.08s ease-out both;
-  }
-  .robot-stage img {
-    animation: robot-float 3s 0.65s ease-in-out 1 both;
-  }
-  .speech {
-    animation: hello-pop 0.55s 0.25s cubic-bezier(0.2, 0.8, 0.3, 1.2) both;
-  }
   .revealed {
     animation: slide-in 0.58s ease-out both;
   }
@@ -461,25 +412,6 @@ html {
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-@keyframes robot-float {
-  0%,
-  100% {
-    transform: translateY(0) rotate(4deg);
-  }
-  50% {
-    transform: translateY(-13px) rotate(1deg);
-  }
-}
-@keyframes hello-pop {
-  from {
-    opacity: 0;
-    transform: translateY(8px) scale(0.85) rotate(-6deg);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1) rotate(-6deg);
   }
 }
 @media (max-width: 760px) {
