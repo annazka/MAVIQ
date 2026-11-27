@@ -170,9 +170,18 @@ export function BusinessSections({ lang }) {
           <p>{copy.definition}</p>
         </div>
       </section>
-      <section className="frame modules" id="kapabilitas" data-reveal>
-        <h2 tabIndex="-1">{copy.tools}</h2>
-        <div className="module-grid">
+      <section
+        className="frame modules feature-spread"
+        id="kapabilitas"
+        data-reveal
+      >
+        <div className="feature-story">
+          <h2 tabIndex="-1">{copy.tools}</h2>
+        </div>
+        <div className="module-grid spread-window">
+          <div className="spread-bar">
+            {lang === 'en' ? 'Workspace tools' : 'Alat operasional'}
+          </div>
           <div className="module-buttons">
             {copy.capabilities.map(([title], index) => {
               const Icon = tools[index];

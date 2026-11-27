@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   ArrowRight,
-  ArrowDown,
   ScanLine,
   Coffee,
   ChartNoAxesCombined,
@@ -14,7 +13,9 @@ import '@fontsource/instrument-serif/400-italic.css';
 import './landing.css';
 import './mascot.css';
 import './workbench.css';
+import './desktop-landing.css';
 import LandingGuide from './LandingGuide.jsx';
+import DesktopHero from './DesktopHero.jsx';
 import WorkbenchPreview from './WorkbenchPreview.jsx';
 import { BusinessSections } from './business-sections.jsx';
 import { MarketSection } from './landing-sections.jsx';
@@ -46,9 +47,9 @@ const texts = {
     tour: 'Try the demo',
     skip: 'Skip to content',
     home: 'Home',
-    note: 'For Indonesian MSMEs',
     shift: 'From receipts to decisions.',
     examples: 'Follow a sample day at a food business.',
+    simulation: 'Try a purchase and see what changes in inventory and cash.',
     steps: [
       [
         'Morning delivery',
@@ -109,9 +110,9 @@ const texts = {
     tour: 'Coba demo',
     skip: 'Langsung ke konten',
     home: 'Beranda',
-    note: 'Untuk UMKM Indonesia',
     shift: 'Dari struk ke keputusan.',
     examples: 'Ikuti contoh kegiatan harian usaha kuliner.',
+    simulation: 'Coba catat pembelian dan lihat perubahan stok serta kas.',
     steps: [
       [
         'Belanja pagi',
@@ -173,6 +174,8 @@ function Landing() {
   });
   const [step, setStep] = useState(0),
     [question, setQuestion] = useState(0);
+  const [activeDemo, setActiveDemo] = useState(0);
+  const [sampleRecorded, setSampleRecorded] = useState(false);
   const t = texts[lang],
     en = lang === 'en',
     Symbol = symbols[step];
@@ -209,7 +212,7 @@ function Landing() {
     </a>
   );
   return (
-    <div className="companion" id="beranda">
+    <div className="companion desktop-landing" id="beranda">
       <a className="land-skip" href="#konten">
         {t.skip}
       </a>
@@ -225,6 +228,7 @@ function Landing() {
         <nav aria-label={t.nav}>
           <a href="#demo-ruang-kerja">{t.tour}</a>
           <a href="#kapabilitas">{t.features}</a>
+          <a href="#fitur">{t.flow}</a>
           <a href="#harga-pasar">{t.market}</a>
           <a href="#faq">FAQ</a>
         </nav>
@@ -244,31 +248,30 @@ function Landing() {
         </div>
       </header>
       <main id="konten">
-        <section className="poster workbench-hero" id="ringkasan">
-          <div className="pitch">
-            <span className="hero-scope">{t.note}</span>
-            <h1>
-              {t.intro}
-              <br />
-              <em>{t.accent}</em>
-            </h1>
-            <p>{t.lead}</p>
-            <div className="cta-row">
-              {cta}
-              <a href="#demo-ruang-kerja">
-                {t.tour} <ArrowDown size={16} />
-              </a>
-            </div>
-          </div>
-          <WorkbenchPreview lang={lang} />
-        </section>
-        <BusinessSections lang={lang} />
-        <section data-reveal className="shift frame" id="fitur">
-          <div>
+        <div className="desktop-canvas">
+          <DesktopHero
+            lang={lang}
+            copy={t}
+            signup={signUp}
+            onOpenDemo={setActiveDemo}
+            recorded={sampleRecorded}
+          />
+          <WorkbenchPreview
+            lang={lang}
+            active={activeDemo}
+            onChange={setActiveDemo}
+            recorded={sampleRecorded}
+            onRecord={setSampleRecorded}
+          />
+          <p className="desktop-demo-caption">{t.simulation}</p>
+        </div>
+        <section data-reveal className="shift frame feature-spread" id="fitur">
+          <div className="feature-story">
             <h2 tabIndex="-1">{t.shift}</h2>
             <p>{t.examples}</p>
           </div>
-          <div className="shift-grid" id="cara-kerja">
+          <div className="shift-grid spread-window" id="cara-kerja">
+            <div className="spread-bar">{t.flow}</div>
             <div className="choices">
               {t.steps.map(([label], i) => {
                 const Icon = symbols[i];
@@ -294,13 +297,20 @@ function Landing() {
             </div>
           </div>
         </section>
-        <section data-reveal className="conversation frame" id="asisten">
-          <div>
+        <section
+          data-reveal
+          className="conversation frame feature-spread"
+          id="asisten"
+        >
+          <div className="feature-story">
             <h2 tabIndex="-1">{t.ask}</h2>
             <p>{t.sample}</p>
             <img src={mascot} alt="" loading="lazy" width="148" height="145" />
           </div>
-          <div>
+          <div className="spread-window assistant-window">
+            <div className="spread-bar">
+              {en ? 'MAVIQ Assistant' : 'Asisten MAVIQ'}
+            </div>
             <div className="prompts">
               {t.questions.map(([q], i) => (
                 <button
@@ -319,6 +329,7 @@ function Landing() {
             </div>
           </div>
         </section>
+        <BusinessSections lang={lang} />
         <MarketSection app={app} en={en} />
         <section data-reveal className="frame qna" id="faq">
           <h2 tabIndex="-1">{t.faq}</h2>
@@ -340,6 +351,14 @@ function Landing() {
           {cta}
         </section>
       </main>
+      <footer className="desktop-footer">
+        <a className="wordmark" href="#beranda">
+          <img src="/maviq.svg" alt="" width="39" height="39" />
+          MAVIQ
+        </a>
+        <a href="#demo-ruang-kerja">{t.tour}</a>
+        <a href={signIn}>{t.login}</a>
+      </footer>
       <LandingGuide key={lang} en={en} />
     </div>
   );

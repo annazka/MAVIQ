@@ -3,28 +3,28 @@ import { CircleStop } from 'lucide-react';
 import './landing-guide.css';
 
 const idStops = [
+  { id: 'demo-ruang-kerja', label: 'Demo ruang kerja', detail: 'Jelajahi pembelian, stok, dan briefing', line: 'Catat pembelian contoh, lalu cek perubahannya di inventaris dan briefing.' },
+  { id: 'fitur', label: 'Fitur', detail: 'Lihat fitur utama MAVIQ', line: 'Mulai dari struk. Periksa draf pembelian sebelum stok dan kas diperbarui.' },
+  { id: 'asisten', label: 'Asisten', detail: 'Coba pertanyaan contoh', line: 'Pilih satu contoh pertanyaan untuk melihat cara asisten menjawab soal stok dan kas.' },
   { id: 'tentang', label: 'Tentang MAVIQ', detail: 'Kenali platform untuk UMKM Indonesia', line: 'MAVIQ membantu UMKM mengelola operasional dan mengambil keputusan berdasarkan data.' },
   { id: 'kapabilitas', label: 'Kapabilitas', detail: 'Pilih alat yang ingin dijelajahi', line: 'Coba pilihan alat untuk pencatatan, harga pasar, inventaris, keuangan, HPP, dan rekomendasi AI.' },
   { id: 'jenis-usaha', label: 'Jenis usaha', detail: 'Lihat contoh dari sektor kuliner', line: 'Pilih contoh warung makan, kedai kopi, katering, toko roti, atau usaha makanan rumahan.' },
-  { id: 'fitur', label: 'Fitur', detail: 'Lihat fitur utama MAVIQ', line: 'Mulai dari struk. Periksa draf pembelian sebelum stok dan kas diperbarui.' },
-  { id: 'cara-kerja', label: 'Cara kerja', detail: 'Ikuti alur pencatatan usaha', line: 'Catat belanja dan penjualan, lalu cek stok, HPP, dan saldo kas.' },
   { id: 'harga-pasar', label: 'Harga Pasar', detail: 'Lihat harga bahan pokok', line: 'Cek harga referensi pasar tradisional dari PIHPS sebelum belanja.' },
-  { id: 'asisten', label: 'Asisten', detail: 'Coba pertanyaan contoh', line: 'Pilih satu contoh pertanyaan untuk melihat cara asisten menjawab soal stok dan kas.' },
   { id: 'faq', label: 'FAQ', detail: 'Cari jawaban sebelum mulai', line: 'Di sini ada jawaban singkat tentang pendaftaran, scan struk, dan penggunaan data.' },
   { id: 'daftar', label: 'Daftar', detail: 'Buat akun dan ruang usaha', line: 'Mulai dengan akun Google atau email, lalu buat ruang kerja untuk usaha Anda.' }
 ];
 
 const enStops = [
+  ['Workspace demo','Explore purchases, stock and briefing','Record a sample purchase, then check what changed in inventory and the daily briefing.'],
+  ['Features','Explore the tools','See what happens when you record a purchase or sale.'],
+  ['Assistant','Ask a sample question','Choose a question to see how I explain the numbers.'],
   ['About MAVIQ','Meet the platform for Indonesian MSMEs','MAVIQ helps Indonesian small businesses run their operations and make decisions based on their data.'],
   ['Capabilities','Choose a tool to explore','Explore recordkeeping, market prices, inventory, finance, production costs, and AI recommendations.'],
   ['Business types','See examples from the food sector','Choose a food stall, coffee shop, caterer, bakery, or home food business.'],
-  ['Features','Explore the tools','See what happens when you record a purchase or sale.'],
-  ['How it works','Follow a business day','Review the receipt, record an order, then check your daily figures.'],
   ['Market prices','Check ingredient prices','Compare published prices before you shop.'],
-  ['Assistant','Ask a sample question','Choose a question to see how I explain the numbers.'],
   ['FAQ','Find an answer','Learn about sign-up, receipts and stock updates.'],
   ['Get started','Open your workspace','Sign up with Google or email to set up your business.']
-].map(([label,detail,line],i)=>({id:idStops[i].id,label,detail,line}));
+].map(([label, detail, line], i) => ({id:idStops[i].id,label,detail,line}));
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), Math.max(min, max));
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;

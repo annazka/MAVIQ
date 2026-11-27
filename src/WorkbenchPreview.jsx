@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   ArrowDownLeft,
   ArrowUpRight,
@@ -103,9 +102,13 @@ const copy = {
   },
 };
 
-export default function WorkbenchPreview({ lang }) {
-  const [active, setActive] = useState(0);
-  const [recorded, setRecorded] = useState(false);
+export default function WorkbenchPreview({
+  lang,
+  active,
+  onChange,
+  recorded,
+  onRecord,
+}) {
   const t = copy[lang];
   const panel = [t.receipt, t.stock, t.briefing][active];
   const PanelIcon = icons[active];
@@ -145,7 +148,7 @@ export default function WorkbenchPreview({ lang }) {
               key={index}
               aria-pressed={active === index}
               aria-controls="workbench-content"
-              onClick={() => setActive(index)}
+              onClick={() => onChange(index)}
             >
               <Icon size={17} aria-hidden="true" />
               {label}
@@ -161,7 +164,7 @@ export default function WorkbenchPreview({ lang }) {
                 <PanelIcon size={23} aria-hidden="true" />
               </span>
               <div>
-                <h2>{panel.title}</h2>
+                <h2 tabIndex={-1}>{panel.title}</h2>
                 <p>{panel.subtitle}</p>
               </div>
             </div>
@@ -210,7 +213,7 @@ export default function WorkbenchPreview({ lang }) {
                 <button
                   type="button"
                   className="record-sample"
-                  onClick={() => setRecorded(!recorded)}
+                  onClick={() => onRecord(!recorded)}
                 >
                   {recorded ? t.reset : t.record}
                 </button>

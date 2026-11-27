@@ -1,0 +1,487 @@
+.desktop-landing {
+  --desk-ink: #173936;
+  --desk-paper: #fcfaf3;
+  --desk-edge: #9aafa3;
+  color: var(--desk-ink);
+  background: var(--desk-paper);
+}
+
+.desktop-landing .mast {
+  width: 100%;
+  min-height: 62px;
+  padding-inline: clamp(14px, 3vw, 48px);
+  background: #fcfaf3;
+  border-bottom: 1px solid #dce3d7;
+  position: sticky;
+  top: 0;
+  z-index: 8;
+}
+.desktop-landing .mast nav {
+  gap: clamp(12px, 2vw, 30px);
+}
+.desktop-landing .wordmark img {
+  object-fit: contain;
+}
+.desktop-landing [id] {
+  scroll-margin-top: 76px;
+}
+
+.desktop-canvas {
+  background:
+    radial-gradient(#648e7842 1px, transparent 1px) 5px 6px / 25px 25px,
+    linear-gradient(165deg, #f4f4e8, #e8f0e4 52%, #f9f5e8);
+  padding-bottom: clamp(28px, 5vw, 60px);
+  border-bottom: 1px solid #d1ddd0;
+}
+.desktop-stage {
+  min-height: 550px;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  width: min(calc(100% - 64px), 1400px);
+  margin-inline: auto;
+  padding-block: 30px 62px;
+}
+.desktop-intro {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  width: min(100%, 510px);
+  margin-inline: auto;
+}
+.desktop-mascot {
+  width: clamp(125px, 14vw, 190px);
+  height: auto;
+  margin-bottom: -14px;
+  filter: drop-shadow(0 15px 12px #233b382e);
+}
+.desktop-intro h1 {
+  color: #133b37;
+  font-size: clamp(76px, 10vw, 150px);
+  font-weight: 820;
+  letter-spacing: -0.105em;
+  padding-inline-end: 0.1em;
+  line-height: 0.95;
+}
+.desktop-tagline {
+  margin-top: 12px;
+  font-size: clamp(19px, 2.15vw, 31px);
+  font-weight: 690;
+  letter-spacing: -0.05em;
+}
+.desktop-lead {
+  max-width: 44ch;
+  margin: 12px auto 0;
+  font-size: clamp(14px, 1.3vw, 18px);
+  line-height: 1.55;
+}
+.desktop-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+.desktop-demo-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 47px;
+  padding: 9px 16px;
+  color: #173f38;
+  background: #fdfbf1;
+  border: 1px solid #749285;
+  border-radius: 100px;
+  font-weight: 730;
+}
+.desktop-demo-link:hover {
+  background: #e3ecdb;
+}
+
+.desktop-shortcut {
+  --tile-angle: -3deg;
+  position: absolute;
+  overflow: hidden;
+  width: clamp(154px, 18vw, 258px);
+  border: 1px solid #819e8f;
+  border-radius: 13px;
+  background: #fffdf4;
+  box-shadow:
+    0 7px 0 #52796c25,
+    0 14px 28px #324b4122;
+  transform: rotate(var(--tile-angle));
+}
+.desktop-shortcut:hover,
+.desktop-shortcut:focus-visible {
+  z-index: 2;
+  transform: translateY(-5px) rotate(0);
+}
+.shortcut-0 {
+  left: 6%;
+  top: 13%;
+}
+.shortcut-1 {
+  --tile-angle: 3deg;
+  right: 4%;
+  top: 16%;
+}
+.shortcut-2 {
+  --tile-angle: 2deg;
+  left: 1%;
+  bottom: 15%;
+}
+.shortcut-3 {
+  --tile-angle: -4deg;
+  right: 1%;
+  bottom: 11%;
+}
+
+.shortcut-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 5px 9px;
+  background: #dce9e0;
+  border-bottom: 1px solid #a6bcae;
+  font-size: 11px;
+  font-weight: 760;
+}
+.shortcut-bar > svg:last-child {
+  margin-left: auto;
+}
+.shortcut-content {
+  display: grid;
+  gap: 5px;
+  padding: 12px 12px 10px;
+  background: #fff9e9;
+  font-size: 12px;
+}
+.shortcut-content strong {
+  font-size: clamp(17px, 1.9vw, 27px);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+.shortcut-1 .shortcut-content {
+  background: #eff5e3;
+}
+.shortcut-2 .shortcut-content {
+  background: #e8f2ef;
+}
+.shortcut-sample,
+.shortcut-photo-label {
+  font-size: 10px;
+  color: #476258;
+}
+.shortcut-3 img {
+  width: 100%;
+  height: clamp(64px, 6vw, 98px);
+  object-fit: cover;
+  object-position: 47% 55%;
+}
+.shortcut-photo-label {
+  display: block;
+  padding: 6px 8px;
+}
+
+.desktop-canvas .workbench {
+  width: min(calc(100% - 54px), 910px);
+  margin-inline: auto;
+}
+.desktop-canvas .workbench-scene {
+  align-items: center;
+  min-height: 300px;
+}
+.desktop-canvas .workbench-paper {
+  width: min(100%, 380px);
+  justify-self: center;
+  align-self: center;
+}
+.desktop-canvas .workbench-assistant img {
+  width: min(100%, 240px);
+}
+.desktop-demo-caption {
+  margin: 19px 12px 0;
+  text-align: center;
+  font-size: 13px;
+  color: #3d5b50;
+}
+
+.desktop-landing .feature-spread {
+  display: grid;
+  grid-template-columns: 0.85fr 1.55fr;
+  align-items: center;
+  gap: clamp(20px, 5vw, 72px);
+  padding-block: clamp(38px, 6vw, 84px);
+}
+.desktop-landing .feature-story h2 {
+  font-size: clamp(31px, 3.65vw, 56px);
+}
+.spread-window {
+  min-width: 0;
+  position: relative;
+  border: 1px solid var(--desk-edge);
+  border-radius: 15px;
+  background: #eaf2e9;
+  box-shadow: 0 6px 0 #78998a36;
+  padding: 53px clamp(12px, 2vw, 28px) clamp(14px, 2vw, 28px);
+}
+.spread-bar {
+  position: absolute;
+  inset: 0 0 auto;
+  min-height: 35px;
+  padding: 8px 13px;
+  border-radius: 14px 14px 0 0;
+  background: #d2e4d8;
+  border-bottom: 1px solid #aabcaf;
+  color: #284d42;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 740;
+}
+.desktop-landing .shift-grid {
+  gap: 11px;
+  grid-template-columns: 1fr 1fr;
+}
+.desktop-landing .shift article {
+  height: 100%;
+  padding: 17px;
+  border-radius: 12px;
+  background: #fff8e3;
+  border: 1px solid #d9cba6;
+}
+.desktop-landing .shift article h3 {
+  font-size: 23px;
+}
+.desktop-landing .shift article p {
+  font-size: 14px;
+}
+.desktop-landing .conversation {
+  background: transparent;
+  color: var(--desk-ink);
+  grid-template-columns: 1.55fr 0.85fr;
+  border-block: 1px solid #d6dfd3;
+  border-radius: 0;
+}
+.desktop-landing .conversation .feature-story {
+  grid-column: 2;
+  grid-row: 1;
+}
+.desktop-landing .conversation .feature-story p {
+  color: #476258;
+}
+.desktop-landing .conversation .assistant-window {
+  grid-column: 1;
+  grid-row: 1;
+}
+.desktop-landing .conversation blockquote {
+  background: #fffdf3;
+  border: 1px solid #b1c7b7;
+  font-size: 17px;
+}
+.desktop-landing .module-grid {
+  margin-top: 0;
+  align-items: center;
+  gap: 12px;
+}
+.desktop-landing .module-buttons {
+  grid-template-columns: 1fr;
+}
+.desktop-landing .module-buttons button {
+  min-height: 39px;
+  border-radius: 9px;
+  font-size: 13px;
+}
+.desktop-landing .modules .insight-card {
+  background: #fff9e9;
+  border: 1px solid #dfd1ab;
+  padding: 15px;
+  border-radius: 12px;
+}
+.desktop-landing .about {
+  padding-block: clamp(38px, 6vw, 76px) 0;
+}
+.desktop-landing .business-types {
+  background: #eee9d6;
+  border: 1px solid #ded2b8;
+  box-shadow: 0 5px 0 #d6caac66;
+}
+.desktop-landing .last {
+  background: #dfebe0;
+  border-top: 1px solid #c9d9ca;
+}
+.desktop-footer {
+  width: min(calc(100% - 48px), 1120px);
+  min-height: 78px;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-block: 8px 16px;
+  font-size: 14px;
+  font-weight: 730;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .desktop-intro {
+    animation: slide-in 0.62s ease-out both;
+  }
+  .desktop-mascot {
+    animation: workbench-greet 0.72s 0.15s ease-out both;
+  }
+  .desktop-shortcut {
+    transition: transform 0.2s ease;
+  }
+}
+@media (max-width: 1080px) and (min-width: 881px) {
+  .desktop-intro {
+    max-width: 390px;
+  }
+  .shortcut-0 {
+    left: 2%;
+  }
+  .shortcut-1 {
+    right: 2%;
+  }
+  .shortcut-2 {
+    left: 0;
+  }
+  .shortcut-3 {
+    right: 0;
+  }
+  .desktop-shortcut {
+    width: 165px;
+  }
+}
+@media (max-width: 880px) {
+  .desktop-landing .mast nav {
+    display: none;
+  }
+  .desktop-stage {
+    min-height: auto;
+    padding-block: 22px 28px;
+    gap: 22px;
+    width: min(calc(100% - 32px), 640px);
+  }
+  .desktop-shortcuts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .desktop-shortcut {
+    inset: auto;
+    position: relative;
+    width: auto;
+    transform: none;
+  }
+  .desktop-landing .feature-spread,
+  .desktop-landing .conversation {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .desktop-landing .conversation .feature-story,
+  .desktop-landing .conversation .assistant-window {
+    grid-column: auto;
+    grid-row: auto;
+  }
+  .desktop-landing .feature-spread h2 {
+    font-size: clamp(30px, 5vw, 50px);
+  }
+}
+@media (max-width: 600px) {
+  .desktop-landing .mast .wordmark {
+    gap: 4px;
+    font-size: 20px;
+  }
+  .desktop-landing .mast .wordmark img {
+    width: 37px;
+    height: 37px;
+  }
+  .desktop-landing .mast .controls {
+    gap: 8px;
+  }
+  .desktop-mascot {
+    width: 134px;
+  }
+  .desktop-intro h1 {
+    font-size: clamp(68px, 19vw, 93px);
+  }
+  .desktop-tagline {
+    font-size: clamp(17px, 5vw, 26px);
+  }
+  .desktop-canvas .workbench {
+    width: calc(100% - 26px);
+  }
+  .desktop-canvas .workbench-scene {
+    min-height: 0;
+  }
+  .desktop-canvas .workbench-paper {
+    width: 100%;
+  }
+  .desktop-landing .shift-grid,
+  .desktop-landing .module-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.shortcut-meter {
+  height: 4px;
+  border-radius: 20px;
+  background: #dce5d8;
+  margin: 3px 0 2px;
+  overflow: hidden;
+}
+.shortcut-meter span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+.shortcut-meter .stock-limited {
+  width: 28%;
+  background: #a36b1c;
+}
+.shortcut-meter .stock-restored {
+  width: 78%;
+  background: #398271;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .desktop-shortcut {
+    animation: tile-in 0.55s ease-out backwards;
+  }
+  .shortcut-0 {
+    animation-delay: 0.05s;
+  }
+  .shortcut-1 {
+    animation-delay: 0.13s;
+  }
+  .shortcut-2 {
+    animation-delay: 0.2s;
+  }
+  .shortcut-3 {
+    animation-delay: 0.28s;
+  }
+  .shortcut-meter span {
+    transition:
+      width 0.3s ease,
+      background-color 0.2s ease;
+  }
+}
+@keyframes tile-in {
+  from {
+    opacity: 0.35;
+    translate: 0 13px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
