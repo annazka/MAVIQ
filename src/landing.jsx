@@ -1,137 +1,346 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ArrowDown, ArrowDownRight, ArrowRight, ArrowUpRight, Banknote, ChartNoAxesCombined, ChevronRight, Coffee, Package, ReceiptText, ScanLine, ShoppingCart } from 'lucide-react';
+import {
+  ArrowRight,
+  ArrowDown,
+  ScanLine,
+  Coffee,
+  ChartNoAxesCombined,
+  Plus,
+  Languages,
+} from 'lucide-react';
 import '@fontsource-variable/plus-jakarta-sans';
-import '@fontsource/instrument-serif/400.css';
 import '@fontsource/instrument-serif/400-italic.css';
 import './landing.css';
+import './mascot.css';
 import LandingGuide from './LandingGuide.jsx';
-import { AssistantSection, FaqSection, MarketSection } from './landing-sections.jsx';
+import { MarketSection } from './landing-sections.jsx';
 
-const app = '/app/';
-const signIn = app + '?mode=masuk';
-const signUp = app + '?mode=daftar';
-const appSections = new Set(['#dashboard', '#sales', '#purchases', '#stock', '#products', '#cash', '#market']);
-const sample = [
-  ['Susu full cream', '4 × 1 L', 'Rp112.000'],
-  ['Biji kopi Arabika', '1 × 500 g', 'Rp82.000'],
-  ['Gelas 16 oz', '2 × 50 pcs', 'Rp64.000']
-];
-const featureData = [
-  { id: 'purchases', icon: ScanLine, title: 'Scan struk pembelian', short: 'Scan struk', copy: 'Unggah foto struk atau isi pembelian secara manual. Periksa rincian, lalu simpan untuk memperbarui stok dan kas.' },
-  { id: 'stock', icon: Package, title: 'Pantau stok dan HPP', short: 'Stok & HPP', copy: 'Hubungkan bahan dengan resep. Lihat stok yang menipis dan estimasi biaya per porsi sebelum menetapkan harga jual.' },
-  { id: 'dashboard', icon: ChartNoAxesCombined, title: 'Baca kondisi usaha', short: 'Laporan', copy: 'Lihat penjualan, estimasi laba kotor, dan kas dalam satu dashboard. Minta briefing harian untuk menentukan langkah berikutnya.' }
-];
-
-function Logo() {
-  return <span className="land-logo"><img src="/maviq.svg" width="36" height="36" alt="" /><span>MAVIQ<span>.</span></span></span>;
-}
-
-function ReceiptPreview() {
-  return <div className="land-receipt">
-    <div className="land-preview-head"><span className="land-icon"><ReceiptText size={19} /></span><div><strong>Draf pembelian</strong><small>Toko Bahan Kopi</small></div><span className="land-badge">Perlu diperiksa</span></div>
-    <div className="land-receipt-lines">{sample.map(([name, count, price]) => <div key={name}><span>{name}<small>{count}</small></span><strong>{price}</strong></div>)}</div>
-    <div className="land-receipt-total"><span>Total dibayar</span><strong>Rp258.000</strong></div>
-  </div>;
-}
-
-function StockPreview() {
-  const stock = [
-    ['Biji kopi Arabika', '324 g', 24],
-    ['Susu full cream', '6.140 ml', 74],
-    ['Gelas 16 oz', '208 pcs', 84]
-  ];
-  return <div className="land-receipt land-stock-preview">
-    <div className="land-preview-head"><span className="land-icon"><Package size={19} /></span><div><strong>Bahan & Stok</strong><small>Persediaan Kedai Nusa</small></div><span className="land-badge">1 bahan menipis</span></div>
-    <div className="land-receipt-lines">{stock.map(([name, count, fill]) => <div key={name}><span>{name}<span className={'stock-meter ' + (fill < 30 ? 'low' : '')}><i style={{ width: fill + '%' }} /></span></span><strong>{count}</strong></div>)}</div>
-    <div className="land-receipt-total"><span>Estimasi HPP es kopi susu</span><strong>Rp7.200/porsi</strong></div>
-  </div>;
-}
-
-function SalesPreview() {
-  return <div className="land-receipt land-sales-preview">
-    <div className="land-preview-head"><span className="land-icon"><ChartNoAxesCombined size={19} /></span><div><strong>Ringkasan usaha</strong><small>Kedai Nusa · 7 hari terakhir</small></div><span className="land-badge mint-label">Contoh</span></div>
-    <div className="land-mini-kpis"><div><span>Penjualan bersih</span><strong>Rp3.204.000</strong></div><div><span>Saldo kas</span><strong>Rp5.244.000</strong></div></div>
-    <div className="land-mini-chart" aria-hidden="true">{[29, 53, 37, 78, 48, 93, 69].map((height, i) => <i key={i} style={{ height: height + '%' }} />)}</div>
-  </div>;
-}
-
-const previews = { purchases: ReceiptPreview, stock: StockPreview, dashboard: SalesPreview };
-
+const app = '/app/',
+  signIn = app + '?mode=masuk',
+  signUp = app + '?mode=daftar';
+const mascot = '/maviq-maskot.webp';
+const appSections = new Set([
+  '#dashboard',
+  '#sales',
+  '#purchases',
+  '#stock',
+  '#products',
+  '#cash',
+  '#market',
+]);
+const texts = {
+  en: {
+    title: 'MAVIQ — Your café companion',
+    intro: 'Meet your café',
+    accent: 'companion.',
+    lead: 'I’m MAVIQ. Show me a receipt or record a sale, and I’ll help you keep track of stock, costs and cash throughout your shift.',
+    features: 'Features',
+    flow: 'How it works',
+    market: 'Market prices',
+    login: 'Sign in',
+    signup: 'Get started',
+    tour: 'Meet MAVIQ',
+    skip: 'Skip to content',
+    home: 'Home',
+    hello: 'Hey, I’m MAVIQ!',
+    note: 'From your café counter',
+    shift: 'One shift, together.',
+    examples: 'Choose a moment from a sample shift.',
+    steps: [
+      [
+        'Morning delivery',
+        'Review a receipt',
+        'Check quantities and prices before confirming. Once saved, ingredients enter stock and the payment comes out of cash.',
+      ],
+      [
+        'First order',
+        'Record a sale',
+        'Choose a drink and quantity. Its recipe determines the ingredients used and the estimated cost per serving.',
+      ],
+      [
+        'Closing time',
+        'Read your briefing',
+        'See your sales, estimated gross profit and cash balance, then check which ingredients are running low.',
+      ],
+    ],
+    ask: 'Ask your companion.',
+    sample: 'Sample conversation · Nusa Café',
+    questions: [
+      [
+        'What’s running low?',
+        'You have 324 g of arabica beans left. Check your stock before the next rush.',
+      ],
+      [
+        'How much cash is there?',
+        'The café’s cash balance is Rp5,244,000. Open Finance to see the money coming in and going out.',
+      ],
+    ],
+    faq: 'Before your first shift',
+    faqs: [
+      [
+        'How do I get started?',
+        'Sign up with Google or email, then enter your café name and opening balance.',
+      ],
+      [
+        'Can I correct a scanned receipt?',
+        'Yes. Review and edit the draft before confirming the purchase. You can also record purchases manually.',
+      ],
+      [
+        'Can the assistant change my records?',
+        'You confirm and cancel transactions in your dashboard. The assistant helps you read the results.',
+      ],
+    ],
+    close: 'Ready for your next shift?',
+    alt: 'MAVIQ, the café’s robot companion',
+    scene: 'Open your café workspace',
+    nav: 'Main navigation',
+  },
+  id: {
+    title: 'MAVIQ — Teman jaga kedaimu',
+    intro: 'Kenalkan, teman',
+    accent: 'jaga kedaimu.',
+    lead: 'Aku MAVIQ. Tunjukkan struk belanja atau catat pesanan, lalu kita cek stok, biaya, dan kas selama kedai buka.',
+    features: 'Fitur',
+    flow: 'Cara kerja',
+    market: 'Harga pasar',
+    login: 'Masuk',
+    signup: 'Mulai sekarang',
+    tour: 'Kenali MAVIQ',
+    skip: 'Langsung ke konten',
+    home: 'Beranda',
+    hello: 'Halo, aku MAVIQ!',
+    note: 'Dari meja kasir',
+    shift: 'Seharian di kedai.',
+    examples: 'Pilih momen dari contoh aktivitas kedai.',
+    steps: [
+      [
+        'Belanja pagi',
+        'Periksa struk',
+        'Periksa jumlah dan harga sebelum konfirmasi. Setelah disimpan, bahan masuk ke stok dan pembayaran mengurangi kas.',
+      ],
+      [
+        'Pesanan pertama',
+        'Catat penjualan',
+        'Pilih minuman dan jumlah pesanan. Resep menentukan bahan yang terpakai dan estimasi biaya per porsi.',
+      ],
+      [
+        'Menjelang tutup',
+        'Baca briefing',
+        'Lihat penjualan, estimasi laba kotor, dan saldo kas, lalu cek bahan yang mulai menipis.',
+      ],
+    ],
+    ask: 'Tanya teman kedaimu.',
+    sample: 'Contoh percakapan · Kedai Nusa',
+    questions: [
+      [
+        'Stok apa yang menipis?',
+        'Biji kopi Arabika tersisa 324 g. Cek stok sebelum jam ramai berikutnya.',
+      ],
+      [
+        'Berapa saldo kas?',
+        'Saldo kas kedai Rp5.244.000. Buka Keuangan untuk melihat rincian kas masuk dan keluar.',
+      ],
+    ],
+    faq: 'Sebelum mulai jaga',
+    faqs: [
+      [
+        'Bagaimana cara memulai?',
+        'Daftar dengan Google atau email, lalu masukkan nama kedai dan saldo awal.',
+      ],
+      [
+        'Bisa koreksi hasil scan struk?',
+        'Bisa. Periksa dan ubah draf sebelum konfirmasi pembelian. Pembelian juga bisa dicatat manual.',
+      ],
+      [
+        'Apakah asisten bisa mengubah catatan saya?',
+        'Kamu mengonfirmasi dan membatalkan transaksi lewat dashboard. Asisten membantu membaca hasilnya.',
+      ],
+    ],
+    close: 'Siap jaga kedai berikutnya?',
+    alt: 'MAVIQ, robot pendamping kedai',
+    scene: 'Buka ruang kerja kedaimu',
+    nav: 'Navigasi utama',
+  },
+};
+const symbols = [ScanLine, Coffee, ChartNoAxesCombined];
 function Landing() {
-  const [feature, setFeature] = useState(featureData[0]);
-  const Preview = previews[feature.id];
-  return <div id="beranda" className="landing">
-    <a className="land-skip" href="#konten">Langsung ke konten</a>
-    <header className="land-header">
-      <div className="land-wrap land-header-inner">
-        <a className="land-brand" href="/" aria-label="MAVIQ beranda"><Logo /></a>
-        <nav className="land-nav" aria-label="Navigasi utama"><a href="#fitur">Fitur</a><a href="#cara-kerja">Cara kerja</a><a href="#harga-pasar">Harga Pasar</a><a href="#faq">FAQ</a></nav>
-        <div className="land-header-actions"><a className="land-login" href={signIn}>Masuk</a><a className="land-button primary" href={signUp}>Daftar <ArrowUpRight size={16} /></a></div>
-      </div>
-    </header>
-    <main id="konten">
-      <section id="ringkasan" className="land-screen land-hero land-wrap">
-        <div className="land-hero-copy" data-enter>
-          <span className="land-eyebrow"><Coffee size={17} /> Untuk UMKM kuliner</span>
-          <h1 tabIndex="-1">Kelola kedai <em>lebih tenang.</em></h1>
-          <p>Foto struk belanja, catat penjualan, dan pantau stok serta kas dalam satu dashboard.</p>
-          <div className="land-actions"><a className="land-button primary" href={signUp}>Daftar akun <ArrowRight size={19} /></a><a className="land-button text-link" href="#cara-kerja">Lihat cara kerja <ArrowDown size={17} /></a></div>
+  const [lang, setLang] = useState(() => {
+    try {
+      return localStorage.getItem('maviq.landing.language') === 'id'
+        ? 'id'
+        : 'en';
+    } catch {
+      return 'en';
+    }
+  });
+  const [step, setStep] = useState(0),
+    [question, setQuestion] = useState(0);
+  const t = texts[lang],
+    en = lang === 'en',
+    Symbol = symbols[step];
+  useEffect(() => {
+    document.documentElement.lang = lang;
+    document.title = t.title;
+    document.querySelector('meta[name=description]').content = t.lead;
+    try {
+      localStorage.setItem('maviq.landing.language', lang);
+    } catch {}
+  }, [lang, t]);
+  const cta = (
+    <a className="go" href={signUp}>
+      {t.signup}
+      <ArrowRight size={18} />
+    </a>
+  );
+  return (
+    <div className="companion" id="beranda">
+      <a className="land-skip" href="#konten">
+        {t.skip}
+      </a>
+      <header className="mast">
+        <a
+          className="wordmark"
+          href="#beranda"
+          aria-label={'MAVIQ · ' + t.home}
+        >
+          <img src="/maviq.svg" width="32" height="32" alt="" />
+          MAVIQ
+        </a>
+        <nav aria-label={t.nav}>
+          <a href="#fitur">{t.features}</a>
+          <a href="#harga-pasar">{t.market}</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <div className="controls">
+          <label>
+            <Languages size={17} />
+            <select
+              aria-label={en ? 'Language' : 'Bahasa'}
+              value={lang}
+              onChange={(e) => setLang(e.target.value)}
+            >
+              <option value="en">English</option>
+              <option value="id">Bahasa Indonesia</option>
+            </select>
+          </label>
+          <a href={signIn}>{t.login}</a>
         </div>
-        <figure className="land-hero-visual">
-          <img className="land-kedai" src="/maviq-kedai.webp" alt="Pemilik kedai kopi menggunakan ponsel untuk memindai struk belanja di meja kasir" width="1100" height="825" fetchPriority="high" />
-          <div className="land-hero-receipt" aria-hidden="true"><ReceiptPreview /></div>
-        </figure>
-      </section>
-
-      <section id="fitur" className="land-screen land-features">
-        <div className="land-wrap land-feature-inner">
-          <div className="land-feature-copy">
-            <h2 tabIndex="-1">Dari nota belanja <em>ke laporan usaha.</em></h2>
-            <p>Pembelian dan penjualan memperbarui stok dan kas kedai.</p>
-            <div className="land-feature-list" aria-label="Pilih contoh fitur">
-              {featureData.map(item => <button key={item.id} aria-label={item.title} aria-pressed={feature.id === item.id} type="button" onClick={() => setFeature(item)}>
-                <span className="land-icon"><item.icon size={19} /></span><span className="land-feature-label">{item.title}</span><span className="land-feature-short">{item.short}</span><ChevronRight className="land-feature-arrow" size={17} />
-              </button>)}
+      </header>
+      <main id="konten">
+        <section className="poster" id="ringkasan">
+          <div className="pitch">
+            <h1>
+              {t.intro}
+              <br />
+              <em>{t.accent}</em>
+            </h1>
+            <p>{t.lead}</p>
+            <div className="cta-row">
+              {cta}
+              <a href="#asisten">
+                {t.tour} <ArrowDown size={16} />
+              </a>
             </div>
           </div>
-          <div className="land-feature-visual">
-            <div className="land-feature-window">
-              <div className="land-window-bar"><span><i /><i /><i /></span><span>Contoh dashboard MAVIQ</span></div>
-              <div className="land-feature-example" key={feature.id}><Preview /><p>{feature.copy}</p><a className="land-inline" href={signUp}>Daftar untuk mulai <ArrowUpRight size={15} /></a></div>
-            </div>
+          <figure className="robot-stage">
+            <span className="speech">{t.hello}</span>
+            <img
+              src={mascot}
+              width="420"
+              height="412"
+              fetchPriority="high"
+              alt={t.alt}
+            />
+          </figure>
+        </section>
+        <section className="shift frame" id="fitur">
+          <div>
+            <h2 tabIndex="-1">{t.shift}</h2>
+            <p>{t.examples}</p>
           </div>
-        </div>
-      </section>
-
-      <section id="cara-kerja" className="land-screen land-workflow land-wrap">
-        <div className="land-workflow-heading"><h2 tabIndex="-1">Mulai dari <em>rutinitas harian.</em></h2><p>Tiga langkah untuk melihat bagaimana transaksi kedai terhubung.</p></div>
-        <div className="land-steps">
-          <article><span className="land-icon"><ScanLine size={23} /></span><h3>Catat belanja</h3><p>Foto struk atau masukkan pembelian manual. Periksa rincian bahan dan total sebelum menyimpan.</p></article>
-          <article><span className="land-icon"><ShoppingCart size={23} /></span><h3>Catat penjualan</h3><p>Pilih produk dan jumlah pesanan. MAVIQ menghitung estimasi HPP dari resep dan memperbarui stok.</p></article>
-          <article><span className="land-icon"><Banknote size={23} /></span><h3>Periksa hasilnya</h3><p>Lihat kas, penjualan, dan bahan yang perlu dibeli ulang. Gunakan briefing harian untuk meninjau prioritas.</p></article>
-        </div>
-      </section>
-      <MarketSection app={app} />
-      <AssistantSection signUp={signUp} />
-      <FaqSection />
-
-      <section id="daftar" className="land-screen land-final">
-        <div className="land-wrap land-final-card">
-          <h2 tabIndex="-1">Siapkan ruang<br /><em>untuk usaha Anda.</em></h2>
-          <p>Daftar dengan Google atau email. Setelah masuk, buat ruang kerja untuk kedai Anda.</p>
-          <a className="land-button primary" href={signUp}>Daftar akun <ArrowRight size={19} /></a>
-        </div>
-        <footer className="land-footer land-wrap"><a href="/" aria-label="MAVIQ beranda"><Logo /></a><span>Operasional usaha kuliner</span><a href={signIn}>Masuk ke MAVIQ <ArrowDownRight size={15} /></a></footer>
-      </section>
-    </main>
-    <LandingGuide />
-  </div>;
+          <div className="shift-grid" id="cara-kerja">
+            <div className="choices">
+              {t.steps.map(([label], i) => {
+                const Icon = symbols[i];
+                return (
+                  <button
+                    key={i}
+                    aria-pressed={step === i}
+                    onClick={() => setStep(i)}
+                  >
+                    <Icon size={21} />
+                    {label}
+                    <ArrowRight size={18} />
+                  </button>
+                );
+              })}
+            </div>
+            <article aria-live="polite">
+              <Symbol size={27} />
+              <h3>{t.steps[step][1]}</h3>
+              <p>{t.steps[step][2]}</p>
+            </article>
+          </div>
+        </section>
+        <section className="conversation frame" id="asisten">
+          <div>
+            <h2 tabIndex="-1">{t.ask}</h2>
+            <p>{t.sample}</p>
+            <img src={mascot} alt="" loading="lazy" width="148" height="145" />
+          </div>
+          <div>
+            <div className="prompts">
+              {t.questions.map(([q], i) => (
+                <button
+                  aria-pressed={question === i}
+                  key={i}
+                  onClick={() => setQuestion(i)}
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+            <blockquote aria-live="polite">
+              {t.questions[question][1]}
+            </blockquote>
+          </div>
+        </section>
+        <MarketSection app={app} en={en} />
+        <section className="frame qna" id="faq">
+          <h2 tabIndex="-1">{t.faq}</h2>
+          <div>
+            {t.faqs.map(([q, a], i) => (
+              <details key={i}>
+                <summary>
+                  {q}
+                  <Plus size={18} />
+                </summary>
+                <p>{a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+        <section className="last" id="daftar">
+          <img src={mascot} alt="" width="88" height="86" />
+          <h2 tabIndex="-1">{t.close}</h2>
+          {cta}
+        </section>
+      </main>
+      <LandingGuide key={lang} en={en} />
+    </div>
+  );
 }
-
 const hash = location.hash;
 const params = new URLSearchParams(location.search);
-if (appSections.has(hash) || hash.startsWith('#access_token=') || params.has('code') || ['masuk', 'daftar', 'oauth', 'aktivasi', 'pemulihan'].includes(params.get('mode'))) {
+if (
+  appSections.has(hash) ||
+  hash.startsWith('#access_token=') ||
+  params.has('code') ||
+  ['masuk', 'daftar', 'oauth', 'aktivasi', 'pemulihan'].includes(
+    params.get('mode'),
+  )
+) {
   location.replace(app + location.search + hash);
 } else {
   createRoot(document.getElementById('root')).render(<Landing />);

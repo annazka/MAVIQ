@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { CircleStop } from 'lucide-react';
 import './landing-guide.css';
 
-const stops = [
+const idStops = [
   { id: 'fitur', label: 'Fitur', detail: 'Lihat fitur utama MAVIQ', line: 'Mulai dari struk. Periksa draf pembelian sebelum stok dan kas diperbarui.' },
   { id: 'cara-kerja', label: 'Cara kerja', detail: 'Ikuti alur pencatatan kedai', line: 'Catat belanja dan penjualan, lalu cek stok, HPP, dan saldo kas.' },
   { id: 'harga-pasar', label: 'Harga Pasar', detail: 'Lihat harga bahan pokok', line: 'Cek harga referensi pasar tradisional dari PIHPS sebelum belanja.' },
@@ -10,6 +10,15 @@ const stops = [
   { id: 'faq', label: 'FAQ', detail: 'Cari jawaban sebelum mulai', line: 'Di sini ada jawaban singkat tentang pendaftaran, scan struk, dan penggunaan data.' },
   { id: 'daftar', label: 'Daftar', detail: 'Buat akun dan ruang usaha', line: 'Mulai dengan akun Google atau email, lalu buat ruang kerja untuk kedai Anda.' }
 ];
+
+const enStops = [
+  ['Features','Explore the tools','See what happens when you record a purchase or sale.'],
+  ['How it works','Follow a café shift','Review the receipt, record an order, then check your daily figures.'],
+  ['Market prices','Check ingredient prices','Compare published prices before you shop.'],
+  ['Assistant','Ask a sample question','Choose a question to see how I explain the numbers.'],
+  ['FAQ','Find an answer','Learn about sign-up, receipts and stock updates.'],
+  ['Get started','Open your workspace','Sign up with Google or email to set up your café.']
+].map(([label,detail,line],i)=>({id:idStops[i].id,label,detail,line}));
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), Math.max(min, max));
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -57,15 +66,16 @@ function scrollToStop(id, focusHeading = false) {
   section.scrollIntoView({ behavior: reducedMotion() ? 'instant' : 'smooth', block: 'start' });
 }
 
-function currentHint() {
+function currentHint(stops,en) {
   const stop = [...stops].reverse().find(({ id }) => {
     const area = document.getElementById(id)?.getBoundingClientRect();
     return area && area.top < window.innerHeight * .55;
   });
-  return stop?.line || 'Halo, saya MAVIQ! Klik saya untuk tur singkat.';
+  return stop?.line || (en ? 'Hi, I’m MAVIQ! Tap me for a quick tour.' : 'Halo, saya MAVIQ! Klik saya untuk tur singkat.');
 }
 
-export default function LandingGuide() {
+export default function LandingGuide({en}) {
+  const stops = en ? enStops : idStops;
   const [menu, setMenu] = useState(false);
   const [tour, setTour] = useState(null);
   const [hint, setHint] = useState('');
@@ -172,15 +182,15 @@ export default function LandingGuide() {
     setDragging(false);
   };
 
-  return <aside ref={guide} className="land-guide" aria-label="Panduan landing page" onKeyDown={event => {
+  return <aside ref={guide} className="land-guide" aria-label={en ? "Page guide" : "Panduan landing page"} onKeyDown={event => {
     if (event.key === 'Escape' && menu) closeMenu();
   }}>
     {showHint && <div ref={popup} id="land-guide-hint" className="land-guide-hint">{hint}</div>}
     <button ref={mascot} type="button" className={'land-guide-launcher' + (dragging ? ' dragging' : '')}
       style={position ? { left: position.x, top: position.y, bottom: 'auto', right: 'auto' } : undefined}
-      aria-label="Panduan MAVIQ" aria-expanded={menu} aria-controls={menu ? 'land-guide-menu' : undefined}
+      aria-label={en ? "MAVIQ guide" : "Panduan MAVIQ"} aria-expanded={menu} aria-controls={menu ? 'land-guide-menu' : undefined}
       aria-describedby={showHint ? 'land-guide-hint' : undefined}
-      onPointerEnter={event => { if (event.pointerType === 'mouse' && !activePointer.current && !menu && tour === null) setHint(currentHint()); }}
+      onPointerEnter={event => { if (event.pointerType === 'mouse' && !activePointer.current && !menu && tour === null) setHint(currentHint(stops,en)); }}
       onPointerLeave={() => setHint('')}
       onPointerDown={event => {
         if (!event.isPrimary || event.button !== 0) return;
@@ -212,10 +222,10 @@ export default function LandingGuide() {
       }}>
       <img src="/maviq-maskot.webp" width="125" height="100" alt="" draggable="false" />
     </button>
-    {menu && <section ref={popup} id="land-guide-menu" className="land-guide-panel land-guide-options" aria-label="Menu panduan">
+    {menu && <section ref={popup} id="land-guide-menu" className="land-guide-panel land-guide-options" aria-label={en ? "Guide menu" : "Menu panduan"}>
       <button ref={firstOption} type="button" aria-labelledby="guide-tour-label" aria-describedby="guide-tour-detail" onClick={startTour}>
-        <strong id="guide-tour-label">Mulai tur otomatis</strong>
-        <span id="guide-tour-detail">Saya pandu bagian demi bagian</span>
+        <strong id="guide-tour-label">{en ? "Start guided tour" : "Mulai tur otomatis"}</strong>
+        <span id="guide-tour-detail">{en ? "I’ll show you around" : "Saya pandu bagian demi bagian"}</span>
       </button>
       {stops.map(stop => <button type="button" key={stop.id} aria-labelledby={'guide-label-' + stop.id}
         aria-describedby={'guide-detail-' + stop.id} onClick={() => jump(stop.id)}>
@@ -223,8 +233,8 @@ export default function LandingGuide() {
         <span id={'guide-detail-' + stop.id}>{stop.detail}</span>
       </button>)}
       <button type="button" aria-labelledby="guide-top-label" aria-describedby="guide-top-detail" onClick={() => jump('beranda')}>
-        <strong id="guide-top-label">Kembali ke atas</strong>
-        <span id="guide-top-detail">Lihat beranda lagi</span>
+        <strong id="guide-top-label">{en ? "Back to top" : "Kembali ke atas"}</strong>
+        <span id="guide-top-detail">{en ? "Return to the introduction" : "Lihat beranda lagi"}</span>
       </button>
     </section>}
     {tour !== null && <div ref={popup} className="land-guide-panel land-guide-tour">
@@ -233,7 +243,7 @@ export default function LandingGuide() {
         window.scrollTo({ top: window.scrollY, behavior: 'instant' });
         setTour(null);
         mascot.current.focus({ preventScroll: true });
-      }}><CircleStop size={16} /> Hentikan tur</button>
+      }}><CircleStop size={16} /> {en ? "Stop tour" : "Hentikan tur"}</button>
     </div>}
   </aside>;
 }
