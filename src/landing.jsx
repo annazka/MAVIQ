@@ -5,7 +5,6 @@ import {
   ScanLine,
   Coffee,
   ChartNoAxesCombined,
-  Plus,
   Languages,
 } from 'lucide-react';
 import '@fontsource-variable/plus-jakarta-sans';
@@ -15,6 +14,7 @@ import './mascot.css';
 import './workbench.css';
 import './desktop-landing.css';
 import LandingGuide from './LandingGuide.jsx';
+import { LandingFaq, LandingFooter } from './LandingEnd.jsx';
 import DesktopHero from './DesktopHero.jsx';
 import WorkbenchPreview from './WorkbenchPreview.jsx';
 import { BusinessSections } from './business-sections.jsx';
@@ -49,7 +49,7 @@ const texts = {
     home: 'Home',
     shift: 'From receipts to decisions.',
     examples: 'Follow a sample day at a food business.',
-    simulation: 'Try a purchase and see what changes in inventory and cash.',
+    simulation: 'Walk through a delivery at Nusa Bakery using sample data.',
     steps: [
       [
         'Morning delivery',
@@ -79,22 +79,6 @@ const texts = {
         'The bakery’s cash balance is Rp5,244,000. Open Finance to see the money coming in and going out.',
       ],
     ],
-    faq: 'Before you get started',
-    faqs: [
-      [
-        'How do I get started?',
-        'Sign up with Google or email, then enter your business name and opening balance.',
-      ],
-      [
-        'Can I correct a scanned receipt?',
-        'Yes. Review and edit the draft before confirming the purchase. You can also record purchases manually.',
-      ],
-      [
-        'Can the assistant change my records?',
-        'You confirm and cancel transactions in your dashboard. The assistant helps you read the results.',
-      ],
-    ],
-    close: 'Ready to run your business with MAVIQ?',
     nav: 'Main navigation',
   },
   id: {
@@ -112,7 +96,8 @@ const texts = {
     home: 'Beranda',
     shift: 'Dari struk ke keputusan.',
     examples: 'Ikuti contoh kegiatan harian usaha kuliner.',
-    simulation: 'Coba catat pembelian dan lihat perubahan stok serta kas.',
+    simulation:
+      'Ikuti alur penerimaan barang di Toko Roti Nusa dengan data contoh.',
     steps: [
       [
         'Belanja pagi',
@@ -142,22 +127,6 @@ const texts = {
         'Saldo kas toko roti Rp5.244.000. Buka Keuangan untuk melihat rincian kas masuk dan keluar.',
       ],
     ],
-    faq: 'Sebelum mulai',
-    faqs: [
-      [
-        'Bagaimana cara memulai?',
-        'Daftar dengan Google atau email, lalu masukkan nama usaha dan saldo awal.',
-      ],
-      [
-        'Bisa koreksi hasil scan struk?',
-        'Bisa. Periksa dan ubah draf sebelum konfirmasi pembelian. Pembelian juga bisa dicatat manual.',
-      ],
-      [
-        'Apakah asisten bisa mengubah catatan saya?',
-        'Kamu mengonfirmasi dan membatalkan transaksi lewat dashboard. Asisten membantu membaca hasilnya.',
-      ],
-    ],
-    close: 'Siap kelola usaha dengan MAVIQ?',
     nav: 'Navigasi utama',
   },
 };
@@ -205,12 +174,6 @@ function Landing() {
       .forEach((section) => observer.observe(section));
     return () => observer.disconnect();
   }, []);
-  const cta = (
-    <a className="go" href={signUp}>
-      {t.signup}
-      <ArrowRight size={18} />
-    </a>
-  );
   return (
     <div className="companion desktop-landing" id="beranda">
       <a className="land-skip" href="#konten">
@@ -330,34 +293,15 @@ function Landing() {
         </section>
         <BusinessSections lang={lang} />
         <MarketSection app={app} en={en} />
-        <section data-reveal className="frame qna" id="faq">
-          <h2 tabIndex="-1">{t.faq}</h2>
-          <div>
-            {t.faqs.map(([q, a], i) => (
-              <details key={i}>
-                <summary>
-                  {q}
-                  <Plus size={18} />
-                </summary>
-                <p>{a}</p>
-              </details>
-            ))}
-          </div>
-        </section>
-        <section className="last" id="daftar">
-          <img src={mascot} alt="" width="88" height="86" />
-          <h2 tabIndex="-1">{t.close}</h2>
-          {cta}
-        </section>
+        <LandingFaq lang={lang} />
       </main>
-      <footer className="desktop-footer">
-        <a className="wordmark" href="#beranda">
-          <img src="/maviq.svg" alt="" width="39" height="39" />
-          MAVIQ
-        </a>
-        <a href="#demo-ruang-kerja">{t.tour}</a>
-        <a href={signIn}>{t.login}</a>
-      </footer>
+      <LandingFooter
+        lang={lang}
+        signIn={signIn}
+        signUp={signUp}
+        login={t.login}
+        signup={t.signup}
+      />
       <LandingGuide key={lang} en={en} />
     </div>
   );

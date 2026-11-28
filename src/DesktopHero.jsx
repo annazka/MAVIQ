@@ -1,3 +1,4 @@
+import HeroMascot from './HeroMascot.jsx';
 import {
   ArrowDown,
   ArrowRight,
@@ -24,7 +25,13 @@ const shortcuts = {
 };
 const shortcutIcons = [ReceiptText, Package, ChartNoAxesCombined, Store];
 
-export default function DesktopHero({ lang, copy, signup, onOpenDemo, recorded }) {
+export default function DesktopHero({
+  lang,
+  copy,
+  signup,
+  onOpenDemo,
+  recorded,
+}) {
   const en = lang === 'en';
   return (
     <section
@@ -34,14 +41,7 @@ export default function DesktopHero({ lang, copy, signup, onOpenDemo, recorded }
     >
       <div className="desktop-stage">
         <div className="desktop-intro">
-          <img
-            className="desktop-hero-logo"
-            src="/maviq.svg"
-            width="324"
-            height="324"
-            fetchPriority="high"
-            alt=""
-          />
+          <HeroMascot />
           <h1 id="hero-title">MAVIQ</h1>
           <p className="desktop-tagline">
             {copy.intro} {copy.accent}
