@@ -12,8 +12,8 @@ import './landing-guide.css';
 const idStops = [
   {
     id: 'demo-ruang-kerja',
-    label: 'Demo ruang kerja',
-    line: 'Catat pembelian contoh, lalu cek perubahannya di inventaris dan briefing.',
+    label: 'Gambaran ruang kerja',
+    line: 'Lihat bagaimana pembelian, inventaris, dan briefing harian terhubung.',
   },
   {
     id: 'fitur',
@@ -23,7 +23,7 @@ const idStops = [
   {
     id: 'asisten',
     label: 'Asisten',
-    line: 'Pilih satu contoh pertanyaan untuk melihat cara asisten menjawab soal stok dan kas.',
+    line: 'Cari tahu di mana melihat stok menipis dan saldo kas.',
   },
   {
     id: 'tentang',
@@ -38,7 +38,7 @@ const idStops = [
   {
     id: 'jenis-usaha',
     label: 'Jenis usaha',
-    line: 'Pilih contoh warung makan, kedai kopi, katering, toko roti, atau usaha makanan rumahan.',
+    line: 'Lihat fitur yang relevan untuk warung makan, kedai kopi, katering, toko roti, dan usaha makanan rumahan.',
   },
   {
     id: 'harga-pasar',
@@ -59,11 +59,11 @@ const idStops = [
 
 const enStops = [
   [
-    'Workspace demo',
-    'Record a sample purchase, then check what changed in inventory and the daily briefing.',
+    'Workspace overview',
+    'See how purchases, inventory, and the daily briefing fit together.',
   ],
   ['Features', 'See what happens when you record a purchase or sale.'],
-  ['Assistant', 'Choose a question to see how I explain the numbers.'],
+  ['Assistant', 'Find out where to check low stock and your cash balance.'],
   [
     'About MAVIQ',
     'MAVIQ helps Indonesian small businesses run their operations and make decisions based on their data.',
@@ -86,7 +86,7 @@ const messages = {
     scroll: 'Auto-scroll',
     about: 'What is MAVIQ?',
     capabilities: 'What can MAVIQ do?',
-    demo: 'Try the demo',
+    demo: 'Explore the workspace',
     stop: 'Stop auto-scroll',
     close: 'Close answer',
     answer: 'Answer from MAVIQ',
@@ -99,7 +99,7 @@ const messages = {
     scroll: 'Gulir otomatis',
     about: 'Apa itu MAVIQ?',
     capabilities: 'MAVIQ bisa apa?',
-    demo: 'Coba demo',
+    demo: 'Jelajahi ruang kerja',
     stop: 'Hentikan gulir otomatis',
     close: 'Tutup jawaban',
     answer: 'Jawaban dari MAVIQ',

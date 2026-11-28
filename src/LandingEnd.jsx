@@ -3,7 +3,7 @@ import { Plus } from 'lucide-react';
 const content = {
   en: {
     title: 'Frequently asked questions',
-    intro: 'What to know about MAVIQ, the demo, and getting started.',
+    intro: 'What to know about MAVIQ and getting started.',
     questions: [
       [
         'What is MAVIQ?',
@@ -14,8 +14,8 @@ const content = {
         'MAVIQ starts with Indonesian food businesses, including food stalls, coffee shops, caterers, bakeries, and home food businesses.',
       ],
       [
-        'Can I try the demo before signing up?',
-        'Yes. The demo lets you review a sample receipt and watch inventory and cash update. It uses example data and does not write to your workspace.',
+        'Do I need an account to use the workspace?',
+        'Yes. Create an account or sign in to set up your workspace and save business records.',
       ],
       [
         'Can I correct a scanned receipt?',
@@ -35,7 +35,7 @@ const content = {
         'Product',
         [
           ['Features', '#kapabilitas'],
-          ['Workspace demo', '#demo-ruang-kerja'],
+          ['Workspace overview', '#demo-ruang-kerja'],
           ['Market prices', '#harga-pasar'],
         ],
       ],
@@ -54,7 +54,7 @@ const content = {
   },
   id: {
     title: 'Pertanyaan yang sering diajukan',
-    intro: 'Kenali MAVIQ, coba demonya, dan lihat cara memulai.',
+    intro: 'Kenali MAVIQ dan lihat cara memulai.',
     questions: [
       [
         'Apa itu MAVIQ?',
@@ -65,8 +65,8 @@ const content = {
         'Fokus awal MAVIQ adalah usaha kuliner Indonesia, termasuk warung makan, kedai kopi, katering, toko roti, dan usaha makanan rumahan.',
       ],
       [
-        'Bisa coba demo sebelum daftar?',
-        'Bisa. Di demo, kamu bisa memeriksa struk contoh dan melihat stok serta kas berubah. Demo hanya memakai data contoh.',
+        'Perlu akun untuk memakai ruang kerja?',
+        'Ya. Buat akun atau masuk untuk menyiapkan ruang kerja dan menyimpan catatan usaha.',
       ],
       [
         'Bisa koreksi hasil scan struk?',
@@ -86,7 +86,7 @@ const content = {
         'Produk',
         [
           ['Fitur', '#kapabilitas'],
-          ['Demo ruang kerja', '#demo-ruang-kerja'],
+          ['Gambaran ruang kerja', '#demo-ruang-kerja'],
           ['Harga pasar', '#harga-pasar'],
         ],
       ],

@@ -120,7 +120,7 @@ const content = {
     ],
     sectors: 'Berangkat dari usaha kuliner.',
     sectorNote:
-      'MAVIQ berfokus awal pada sektor kuliner Indonesia. Lihat contoh pemakaiannya di berbagai jenis usaha.',
+      'MAVIQ berfokus awal pada sektor kuliner Indonesia. Lihat fitur yang relevan untuk berbagai jenis usaha.',
     examples: [
       [
         'Warung makan',

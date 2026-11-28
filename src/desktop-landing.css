@@ -162,19 +162,12 @@
   background: #fff9e9;
   font-size: 12px;
 }
-.shortcut-content strong {
-  font-size: clamp(17px, 1.9vw, 27px);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.05em;
-  line-height: 1;
-}
 .shortcut-1 .shortcut-content {
   background: #eff5e3;
 }
 .shortcut-2 .shortcut-content {
   background: #e8f2ef;
 }
-.shortcut-sample,
 .shortcut-photo-label {
   font-size: 10px;
   color: #476258;
@@ -193,12 +186,6 @@
 .desktop-canvas .workbench {
   width: min(calc(100% - 54px), 910px);
   margin-inline: auto;
-}
-.desktop-demo-caption {
-  margin: 19px 12px 0;
-  text-align: center;
-  font-size: 13px;
-  color: #3d5b50;
 }
 
 .desktop-landing .feature-spread {
@@ -392,27 +379,6 @@
   }
 }
 
-.shortcut-meter {
-  height: 4px;
-  border-radius: 20px;
-  background: #dce5d8;
-  margin: 3px 0 2px;
-  overflow: hidden;
-}
-.shortcut-meter span {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-}
-.shortcut-meter .stock-limited {
-  width: 28%;
-  background: #a36b1c;
-}
-.shortcut-meter .stock-restored {
-  width: 78%;
-  background: #398271;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .desktop-shortcut {
     animation: tile-in 0.55s ease-out backwards;
@@ -428,11 +394,6 @@
   }
   .shortcut-3 {
     animation-delay: 0.28s;
-  }
-  .shortcut-meter span {
-    transition:
-      width 0.3s ease,
-      background-color 0.2s ease;
   }
 }
 @keyframes tile-in {

@@ -44,12 +44,11 @@ const texts = {
     market: 'Market prices',
     login: 'Sign in',
     signup: 'Get started',
-    tour: 'Try the demo',
+    tour: 'Explore the workspace',
     skip: 'Skip to content',
     home: 'Home',
     shift: 'From receipts to decisions.',
-    examples: 'Follow a sample day at a food business.',
-    simulation: 'Walk through a delivery at Nusa Bakery using sample data.',
+    workflowIntro: 'See how purchases, sales, and your briefing connect.',
     steps: [
       [
         'Morning delivery',
@@ -68,15 +67,15 @@ const texts = {
       ],
     ],
     ask: 'Ask your companion.',
-    sample: 'Sample conversation · Nusa Bakery',
+    assistantIntro: 'Find out how to read stock and cash in your workspace.',
     questions: [
       [
-        'What’s running low?',
-        'You have 1.2 kg of flour left. Check your stock before the next rush.',
+        'How do I check low stock?',
+        'Open Inventory or your daily briefing to see which ingredients are at or below the minimum you set.',
       ],
       [
-        'How much cash is there?',
-        'The bakery’s cash balance is Rp5,244,000. Open Finance to see the money coming in and going out.',
+        'Where can I check my cash balance?',
+        'Open Finance to see your cash balance and the money recorded as coming in and going out.',
       ],
     ],
     nav: 'Main navigation',
@@ -91,13 +90,12 @@ const texts = {
     market: 'Harga pasar',
     login: 'Masuk',
     signup: 'Mulai sekarang',
-    tour: 'Coba demo',
+    tour: 'Jelajahi ruang kerja',
     skip: 'Langsung ke konten',
     home: 'Beranda',
     shift: 'Dari struk ke keputusan.',
-    examples: 'Ikuti contoh kegiatan harian usaha kuliner.',
-    simulation:
-      'Ikuti alur penerimaan barang di Toko Roti Nusa dengan data contoh.',
+    workflowIntro:
+      'Lihat bagaimana pembelian, penjualan, dan briefing terhubung.',
     steps: [
       [
         'Belanja pagi',
@@ -116,15 +114,15 @@ const texts = {
       ],
     ],
     ask: 'Tanya asisten usahamu.',
-    sample: 'Contoh percakapan · Toko Roti Nusa',
+    assistantIntro: 'Pelajari cara membaca stok dan kas di ruang kerjamu.',
     questions: [
       [
-        'Stok apa yang menipis?',
-        'Tepung terigu tersisa 1,2 kg. Cek stok sebelum jam ramai berikutnya.',
+        'Bagaimana cara cek stok menipis?',
+        'Buka Inventaris atau briefing harian untuk melihat bahan yang mencapai atau berada di bawah batas minimum.',
       ],
       [
-        'Berapa saldo kas?',
-        'Saldo kas toko roti Rp5.244.000. Buka Keuangan untuk melihat rincian kas masuk dan keluar.',
+        'Di mana saya bisa cek saldo kas?',
+        'Buka Keuangan untuk melihat saldo kas dan rincian kas masuk serta keluar yang tercatat.',
       ],
     ],
     nav: 'Navigasi utama',
@@ -144,7 +142,6 @@ function Landing() {
   const [step, setStep] = useState(0),
     [question, setQuestion] = useState(0);
   const [activeDemo, setActiveDemo] = useState(0);
-  const [sampleRecorded, setSampleRecorded] = useState(false);
   const t = texts[lang],
     en = lang === 'en',
     Symbol = symbols[step];
@@ -216,21 +213,19 @@ function Landing() {
             copy={t}
             signup={signUp}
             onOpenDemo={setActiveDemo}
-            recorded={sampleRecorded}
           />
           <WorkbenchPreview
             lang={lang}
             active={activeDemo}
             onChange={setActiveDemo}
-            recorded={sampleRecorded}
-            onRecord={setSampleRecorded}
+            signUp={signUp}
+            signup={t.signup}
           />
-          <p className="desktop-demo-caption">{t.simulation}</p>
         </div>
         <section data-reveal className="shift frame feature-spread" id="fitur">
           <div className="feature-story">
             <h2 tabIndex="-1">{t.shift}</h2>
-            <p>{t.examples}</p>
+            <p>{t.workflowIntro}</p>
           </div>
           <div className="shift-grid spread-window" id="cara-kerja">
             <div className="spread-bar">{t.flow}</div>
@@ -266,7 +261,7 @@ function Landing() {
         >
           <div className="feature-story">
             <h2 tabIndex="-1">{t.ask}</h2>
-            <p>{t.sample}</p>
+            <p>{t.assistantIntro}</p>
             <img src={mascot} alt="" loading="lazy" width="148" height="145" />
           </div>
           <div className="spread-window assistant-window">

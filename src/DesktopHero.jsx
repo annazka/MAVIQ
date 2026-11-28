@@ -11,27 +11,21 @@ import {
 
 const shortcuts = {
   en: [
-    ['Purchase draft', 'Flour, butter and eggs', 'Rp148,000'],
-    ['Ingredient stock', 'Flour on hand', '1.2 kg'],
-    ['Daily briefing', 'Today’s sales', 'Rp1,250,000'],
+    ['Purchases', 'Review receipts and record incoming ingredients.'],
+    ['Inventory', 'Track ingredients and know when to restock.'],
+    ['Daily briefing', 'Review sales, cash flow, and stock alerts.'],
     ['Built for food businesses', 'Explore business types'],
   ],
   id: [
-    ['Draf pembelian', 'Tepung, mentega, dan telur', 'Rp148.000'],
-    ['Stok bahan', 'Tepung terigu tersedia', '1,2 kg'],
-    ['Briefing harian', 'Penjualan hari ini', 'Rp1.250.000'],
+    ['Pembelian', 'Periksa struk dan catat bahan masuk.'],
+    ['Inventaris', 'Pantau persediaan dan ketahui kapan perlu belanja.'],
+    ['Briefing harian', 'Tinjau penjualan, arus kas, dan stok yang menipis.'],
     ['Untuk usaha kuliner', 'Lihat jenis usaha'],
   ],
 };
 const shortcutIcons = [ReceiptText, Package, ChartNoAxesCombined, Store];
 
-export default function DesktopHero({
-  lang,
-  copy,
-  signup,
-  onOpenDemo,
-  recorded,
-}) {
+export default function DesktopHero({ lang, copy, signup, onOpenDemo }) {
   const en = lang === 'en';
   return (
     <section
@@ -66,7 +60,7 @@ export default function DesktopHero({
           className="desktop-shortcuts"
           aria-label={en ? 'Workspace shortcuts' : 'Pintasan ruang kerja'}
         >
-          {shortcuts[lang].map(([title, label, value], index) => {
+          {shortcuts[lang].map(([title, label], index) => {
             const Icon = shortcutIcons[index];
             return (
               <a
@@ -92,28 +86,7 @@ export default function DesktopHero({
                     <span className="shortcut-photo-label">{label}</span>
                   </>
                 ) : (
-                  <span className="shortcut-content">
-                    <span>{label}</span>
-                    <strong>
-                      {index === 1 && recorded
-                        ? en
-                          ? '5.2 kg'
-                          : '5,2 kg'
-                        : value}
-                    </strong>
-                    {index === 1 && (
-                      <span className="shortcut-meter" aria-hidden="true">
-                        <span
-                          className={
-                            recorded ? 'stock-restored' : 'stock-limited'
-                          }
-                        />
-                      </span>
-                    )}
-                    <span className="shortcut-sample">
-                      {en ? 'Sample data' : 'Data contoh'}
-                    </span>
-                  </span>
+                  <span className="shortcut-content">{label}</span>
                 )}
               </a>
             );
