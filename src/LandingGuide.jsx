@@ -12,8 +12,8 @@ import './landing-guide.css';
 const idStops = [
   {
     id: 'demo-ruang-kerja',
-    label: 'Gambaran ruang kerja',
-    line: 'Lihat bagaimana pembelian, inventaris, dan briefing harian terhubung.',
+    label: 'Demo interaktif',
+    line: 'Pilih jenis usaha dan ikuti pembelian fiktif sampai stok dan kas berubah.',
   },
   {
     id: 'fitur',
@@ -59,8 +59,8 @@ const idStops = [
 
 const enStops = [
   [
-    'Workspace overview',
-    'See how purchases, inventory, and the daily briefing fit together.',
+    'Interactive demo',
+    'Choose a business type and follow a fictional purchase through inventory and cash.',
   ],
   ['Features', 'See what happens when you record a purchase or sale.'],
   ['Assistant', 'Find out where to check low stock and your cash balance.'],
@@ -86,7 +86,7 @@ const messages = {
     scroll: 'Auto-scroll',
     about: 'What is MAVIQ?',
     capabilities: 'What can MAVIQ do?',
-    demo: 'Explore the workspace',
+    demo: 'Try the demo',
     stop: 'Stop auto-scroll',
     close: 'Close answer',
     answer: 'Answer from MAVIQ',
@@ -99,7 +99,7 @@ const messages = {
     scroll: 'Gulir otomatis',
     about: 'Apa itu MAVIQ?',
     capabilities: 'MAVIQ bisa apa?',
-    demo: 'Jelajahi ruang kerja',
+    demo: 'Coba demo',
     stop: 'Hentikan gulir otomatis',
     close: 'Tutup jawaban',
     answer: 'Jawaban dari MAVIQ',

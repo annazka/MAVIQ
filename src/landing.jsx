@@ -44,7 +44,7 @@ const texts = {
     market: 'Market prices',
     login: 'Sign in',
     signup: 'Get started',
-    tour: 'Explore the workspace',
+    tour: 'Try the demo',
     skip: 'Skip to content',
     home: 'Home',
     shift: 'From receipts to decisions.',
@@ -90,7 +90,7 @@ const texts = {
     market: 'Harga pasar',
     login: 'Masuk',
     signup: 'Mulai sekarang',
-    tour: 'Jelajahi ruang kerja',
+    tour: 'Coba demo',
     skip: 'Langsung ke konten',
     home: 'Beranda',
     shift: 'Dari struk ke keputusan.',
@@ -218,8 +218,6 @@ function Landing() {
             lang={lang}
             active={activeDemo}
             onChange={setActiveDemo}
-            signUp={signUp}
-            signup={t.signup}
           />
         </div>
         <section data-reveal className="shift frame feature-spread" id="fitur">

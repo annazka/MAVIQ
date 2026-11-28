@@ -14,8 +14,8 @@ const content = {
         'MAVIQ starts with Indonesian food businesses, including food stalls, coffee shops, caterers, bakeries, and home food businesses.',
       ],
       [
-        'Do I need an account to use the workspace?',
-        'Yes. Create an account or sign in to set up your workspace and save business records.',
+        'Can I try the demo without an account?',
+        'Yes. Choose a business type and follow a fictional purchase through inventory and cash. Sign in to save your own records.',
       ],
       [
         'Can I correct a scanned receipt?',
@@ -35,7 +35,7 @@ const content = {
         'Product',
         [
           ['Features', '#kapabilitas'],
-          ['Workspace overview', '#demo-ruang-kerja'],
+          ['Interactive demo', '#demo-ruang-kerja'],
           ['Market prices', '#harga-pasar'],
         ],
       ],
@@ -65,8 +65,8 @@ const content = {
         'Fokus awal MAVIQ adalah usaha kuliner Indonesia, termasuk warung makan, kedai kopi, katering, toko roti, dan usaha makanan rumahan.',
       ],
       [
-        'Perlu akun untuk memakai ruang kerja?',
-        'Ya. Buat akun atau masuk untuk menyiapkan ruang kerja dan menyimpan catatan usaha.',
+        'Bisa coba demo tanpa akun?',
+        'Bisa. Pilih jenis usaha dan ikuti alur pembelian fiktif sampai stok dan kas berubah. Masuk untuk menyimpan catatan usahamu sendiri.',
       ],
       [
         'Bisa koreksi hasil scan struk?',
@@ -86,7 +86,7 @@ const content = {
         'Produk',
         [
           ['Fitur', '#kapabilitas'],
-          ['Gambaran ruang kerja', '#demo-ruang-kerja'],
+          ['Demo interaktif', '#demo-ruang-kerja'],
           ['Harga pasar', '#harga-pasar'],
         ],
       ],
